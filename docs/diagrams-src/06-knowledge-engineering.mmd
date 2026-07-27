@@ -1,0 +1,34 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart TB
+    subgraph KB["三库知识工程（.harness/ 持久化知识资产）"]
+        direction LR
+        SPECS["📘 specs/ 规格库<br/>———————<br/>6 个业务域文件<br/>BDD Scenario<br/>唯一编号 R-xxx / S-xxx<br/>退役列表（永不复用）<br/>系统行为唯一真相源"]
+        GUIDE["🗺 codebase-guide/ 代码知识库<br/>———————<br/>前后端架构地图<br/>调用链一行流<br/>组件-状态映射<br/>开发菜谱 dev-recipes<br/>5 分钟恢复上下文"]
+        MEM["🧠 memory/ 经验记忆库<br/>———————<br/>四段式条目：<br/>症状 → 根因 → 修复 → 防复发<br/>按 日期__域__slug 命名<br/>新任务开工前检索"]
+    end
+    TASK["任务执行过程<br/>（propose → apply）"]
+    ARCHIVE["/harness-archive 归档"]
+    NEWTASK["下一个新任务"]
+    TASK -->|"requirements.md<br/>产出 Spec Delta"| ARCHIVE
+    TASK -->|"dev-log.md<br/>沉淀可复用经验"| ARCHIVE
+    ARCHIVE -->|"Spec Merge<br/>编号并入域文件"| SPECS
+    ARCHIVE -->|"Memory Merge<br/>四段式写入"| MEM
+    ARCHIVE -->|"架构变化回写"| GUIDE
+    SPECS -->|"BA 读取：需求编号基线"| NEWTASK
+    GUIDE -->|"SA/Dev 读取：快速恢复上下文"| NEWTASK
+    MEM -->|"Dev 读取：避免重复踩坑"| NEWTASK
+    NEWTASK -.->|"持续滚动，知识复利"| TASK
+    style KB fill:#f7fafc,stroke:#4a5568
+    style SPECS fill:#ebf8ff,stroke:#2b6cb0
+    style GUIDE fill:#fffaf0,stroke:#975a16
+    style MEM fill:#f0fff4,stroke:#276749
+    style ARCHIVE fill:#fff5f5,stroke:#c53030

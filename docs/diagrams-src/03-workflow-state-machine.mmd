@@ -1,0 +1,41 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart LR
+    subgraph P1["/harness-propose 提案阶段"]
+        direction LR
+        A1["PROPOSED<br/>proposal.md 对齐"] --> A2["REQUIREMENTS<br/>BA · BDD 需求+编号"]
+        A2 --> A3["DESIGN<br/>SA · W-xx 工作项+覆盖矩阵"]
+        A3 --> A4["READINESS<br/>RR · 10 项就绪清单"]
+    end
+    subgraph P2["/harness-apply 实施阶段"]
+        direction LR
+        B1["DEVELOPMENT<br/>Dev · TDD 红绿证据"] --> B2["CODE_REVIEW<br/>CR · 13 节审查+行号证据"]
+        B2 --> B3["TESTING<br/>TE · E2E 取证+截图"]
+    end
+    subgraph P3["/harness-archive 归档阶段"]
+        direction LR
+        C1["AWAITING_ARCHIVE"] --> C2["Spec Merge<br/>+ Memory Merge"]
+        C2 --> C3["DONE"]
+    end
+    A4 --> G1{{"🔒 人工审批 1<br/>需求/方案/就绪"}}
+    G1 --> B1
+    B3 --> G2{{"🔒 人工审批 2<br/>证据链核验"}}
+    G2 --> C1
+    B2 -.->|"REJECT 打回<br/>(上限 3 次)"| B1
+    B3 -.->|"实现级 Bug 打回"| B1
+    HK["⚙ subagentStop Hook<br/>进程外并行验证<br/>写入 hook-results JSON"] -.-> B1
+    style G1 fill:#fff5f5,stroke:#c53030,stroke-width:2px
+    style G2 fill:#fff5f5,stroke:#c53030,stroke-width:2px
+    style C3 fill:#f0fff4,stroke:#276749,stroke-width:2px
+    style HK fill:#ebf8ff,stroke:#2b6cb0
+    style P1 fill:#fffaf0,stroke:#975a16
+    style P2 fill:#ebf8ff,stroke:#2b6cb0
+    style P3 fill:#f0fff4,stroke:#276749

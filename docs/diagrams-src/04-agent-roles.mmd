@@ -1,0 +1,36 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart TB
+    PM["🎯 PM · Project Manager<br/>调度中枢：只派发不干活<br/>六类 [PM] 心跳 · 读 hook-results 才交棒"]
+    subgraph PROPOSE["propose 接力棒（需求 → 方案 → 就绪）"]
+        direction LR
+        BA["📋 BA · 需求分析师<br/>BDD GIVEN-WHEN-THEN<br/>全库唯一编号 R-xxx/S-xxx<br/>需求纯净：不写实现"]
+        SA["🏗 SA · 方案架构师<br/>W-xx 工作项拆解<br/>R/S 双向覆盖矩阵<br/>Dev/TE-owned 划分"]
+        RR["✅ RR · 就绪评审员<br/>10 项 checklist<br/>任一 FAIL 即 BLOCK"]
+        BA --> SA --> RR
+    end
+    subgraph APPLY["apply 接力棒（开发 → 审查 → 验证）"]
+        direction LR
+        DEV["💻 Dev · 开发工程师<br/>严格 TDD：先红后绿<br/>只做 Dev-owned 工作项<br/>post-verify 收尾自检"]
+        CR["🔍 CR · 代码审查员<br/>13 节审查报告<br/>逐 Scenario 文件:行号取证<br/>独立于 Dev（自审失效对策）"]
+        TE["🧪 TE · 测试工程师<br/>B 类 E2E 与 Scenario 1:1<br/>C 类回归 + 截图证据<br/>不许修改被测代码"]
+        DEV --> CR --> TE
+    end
+    HUMAN["👤 人类工程师<br/>两次审批卡点 · 最终判断"]
+    PM -->|"调度"| PROPOSE
+    PM -->|"调度"| APPLY
+    PROPOSE -->|"人工审批 1"| HUMAN
+    APPLY -->|"人工审批 2"| HUMAN
+    HUMAN -->|"批准后 PM 执行归档<br/>Spec Merge + Memory Merge"| PM
+    style PM fill:#ebf8ff,stroke:#2b6cb0,stroke-width:2px
+    style HUMAN fill:#fff5f5,stroke:#c53030,stroke-width:2px
+    style PROPOSE fill:#fffaf0,stroke:#975a16
+    style APPLY fill:#f0fff4,stroke:#276749

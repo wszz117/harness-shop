@@ -1,0 +1,18 @@
+---
+description: 工作流纪律（接力赛规则与信息单向流）
+alwaysApply: true
+---
+
+# 工作流纪律
+
+## 接力赛规则
+
+propose/apply/archive 是接力赛：BA→SA→RR→Dev→CR→TE，每一棒只做本棒职责，**接棒不回改上一棒**。
+
+## 信息单向流
+
+1. 上游文档进入下游棒次即**冻结**：下游只读，禁止修改（proposal/requirements/design/readiness-review 对 Dev/CR/TE 只读）。
+2. 发现上游问题 → 在本棒产出文档中记录 + 结论 BLOCK/REJECT/FAIL，由 **PM 按回退规则表**（agents/project-manager.md §8）裁决回退；禁止私下修上游文档"顺手解决"。
+3. 结论段是唯一裁决接口：每份交付文档文末必须有「## 结论」，取值 PASS / BLOCK / REJECT / FAIL，其后跟原因。
+4. 证据优先：任何判定必须给出文件:行号、测试输出、退出码或截图；无证据的断言视为无效。
+5. 两个人工卡点（审批 1/2）不可由任何角色替用户确认。

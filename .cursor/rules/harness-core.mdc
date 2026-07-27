@@ -1,0 +1,22 @@
+---
+description: Harness 核心研发纪律（三步验证 + 绝对禁止清单）
+alwaysApply: true
+---
+
+# Harness 核心纪律
+
+## 三步验证（宣布任何"完成"之前，缺一不可）
+
+1. **后端可启动**：`node backend/server.js` 正常监听（或 `bash .harness/scripts/backend-smoke.sh` 通过）。
+2. **前端可构建**：`cd frontend && npm run build` 退出码 0。
+3. **硬门禁全过**：`bash .harness/scripts/verify.sh` 全 PASS（退出码 0）。
+
+## 绝对禁止
+
+1. 以「特殊情况」「时间关系」「这里可以先简化」为借口绕过任何门禁脚本。
+2. 用**口头汇报**代替脚本退出码与测试输出（"应该能过""看起来没问题"都不算数）。
+3. 验证未通过就推进下一步或宣布完成。
+4. propose 阶段修改源码（frontend/backend/mcp-server/e2e 与 package.json 对 propose 全程只读）。
+5. PM 在**任何阶段**修改源码。
+
+> 完成的定义 = 证据链（退出码 + 测试输出 + 截图），不是自我陈述。

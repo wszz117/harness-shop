@@ -1,0 +1,186 @@
+import asyncHandler from '../middleware/asyncHandler.js';
+import User from '../models/userModel.js';
+import Product from '../models/productModel.js';
+import generateToken from '../utils/generateToken.js';
+
+// @desc    Auth user & get token
+// @route   POST /api/users/auth
+// @access  Public
+const authUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      uiLanguage: user.uiLanguage,
+    });
+  } else {
+    res.status(401);
+    throw new Error('Invalid email or password');
+  }
+});
+
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error('User already exists');
+  }
+
+  const user = await User.create({ name, email, password });
+  if (user) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      uiLanguage: user.uiLanguage,
+    });
+  } else {
+    res.status(400);
+    throw new Error('Invalid user data');
+  }
+});
+
+// @desc    Logout user / clear cookie
+// @route   POST /api/users/logout
+// @access  Public
+const logoutUser = (req, res) => {
+  res.cookie('jwt', '', { httpOnly: true, expires: new Date(0) });
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      uiLanguage: user.uiLanguage,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// @desc    Update user profile (含 uiLanguage 用户级语言偏好持久化)
+// @route   PUT /api/users/profile
+// @access  Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.uiLanguage && ['zh', 'en'].includes(req.body.uiLanguage)) {
+      user.uiLanguage = req.body.uiLanguage;
+    }
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      uiLanguage: updatedUser.uiLanguage,
+    });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+// @desc    Get wishlist (我的收藏 / My Favorites)
+// @route   GET /api/users/wishlist
+// @access  Private
+const getWishlist = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).populate('wishlist');
+  res.json(user.wishlist || []);
+});
+
+// @desc    Add product to wishlist
+// @route   POST /api/users/wishlist
+// @access  Private
+const addToWishlist = asyncHandler(async (req, res) => {
+  const { productId } = req.body;
+  const product = await Product.findById(productId);
+  if (!product) {
+    res.status(404);
+    throw new Error('Resource not found');
+  }
+  const user = await User.findById(req.user._id);
+  if (!user.wishlist.some((id) => id.toString() === productId)) {
+    user.wishlist.push(productId);
+    await user.save();
+  }
+  res.status(201).json({ message: 'Added to wishlist' });
+});
+
+// @desc    Remove product from wishlist
+// @route   DELETE /api/users/wishlist/:id
+// @access  Private
+const removeFromWishlist = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  user.wishlist = user.wishlist.filter(
+    (id) => id.toString() !== req.params.id
+  );
+  await user.save();
+  res.json({ message: 'Removed from wishlist' });
+});
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({}).select('-password');
+  res.json(users);
+});
+
+// @desc    Delete user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error('Cannot delete admin user');
+    }
+    await User.deleteOne({ _id: user._id });
+    res.json({ message: 'User removed' });
+  } else {
+    res.status(404);
+    throw new Error('User not found');
+  }
+});
+
+export {
+  authUser,
+  registerUser,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  getUsers,
+  deleteUser,
+};

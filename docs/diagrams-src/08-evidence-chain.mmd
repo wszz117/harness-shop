@@ -1,0 +1,29 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart LR
+    PROP["proposal.md<br/>任务定义<br/>（唯一真相源）<br/>背景/范围/Profile/验收口径"]
+    REQ["requirements.md<br/>BA 产出<br/>BDD 需求 + R/S 编号<br/>+ Spec Delta 表"]
+    DES["design.md<br/>SA 产出<br/>W-xx 工作项<br/>+ R/S 双向覆盖矩阵"]
+    RDY["readiness-review.md<br/>RR 产出<br/>10 项 checklist"]
+    DEVLOG["dev-log.md<br/>Dev 产出<br/>变更清单（文件级）<br/>+ TDD 红绿证据"]
+    HOOKJ["hook-results/developer.json<br/>进程外真实退出码<br/>（AI 不可伪造）"]
+    CRDOC["code-review.md<br/>CR 产出<br/>13 节 + 逐 Scenario<br/>文件:行号证据"]
+    TRPT["test-report.md<br/>TE 产出<br/>B 类 1:1 + C 类回归<br/>+ evidence/ 截图"]
+    ARC["_archive/&lt;task&gt;/<br/>完整证据链归档<br/>7 文档 + 截图<br/>可审计 · 可追溯 · 可复现"]
+    PROP --> REQ --> DES --> RDY --> DEVLOG --> CRDOC --> TRPT --> ARC
+    DEVLOG -.->|"subagentStop 旁路"| HOOKJ
+    HOOKJ -.->|"PM 核验 PASS"| CRDOC
+    TRACE["🔎 完整追溯链：代码行 → W-xx 工作项 → R/S 编号 → 验收口径"]
+    ARC --- TRACE
+    style PROP fill:#ebf8ff,stroke:#2b6cb0
+    style HOOKJ fill:#fff5f5,stroke:#c53030,stroke-width:2px
+    style ARC fill:#f0fff4,stroke:#276749,stroke-width:2px
+    style TRACE fill:#fffaf0,stroke:#975a16

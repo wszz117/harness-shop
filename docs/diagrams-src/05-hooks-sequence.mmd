@@ -1,0 +1,40 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+sequenceDiagram
+    autonumber
+    participant PM as PM 调度者
+    participant Dev as Dev 子代理
+    participant IDE as Cursor IDE<br/>事件系统
+    participant Hook as dispatch-subagent.py<br/>（独立进程）
+    participant FS as .hook-results/<br/>developer.json
+
+    PM->>Dev: 派发 Dev-owned 工作项（W-xx）
+    Dev->>Dev: TDD：先写失败测试（红）
+    Dev->>Dev: 实现代码使测试转绿
+    Dev->>Dev: post-verify 收尾自检
+    Dev-->>IDE: 宣布收工（声称"测试全部通过"）
+    Note over IDE,Hook: AI 无法感知、无法干预的旁路验证
+    IDE->>Hook: 触发 subagentStop 事件
+    par 并行四项验证
+        Hook->>Hook: npm test（后端单测）
+        Hook->>Hook: npm run test:frontend（前端单测）
+        Hook->>Hook: verify.sh（19 项硬门禁）
+        Hook->>Hook: baseline.sh（质量基线对比）
+    end
+    Hook->>FS: 写入真实退出码 + 输出摘要
+    PM->>FS: 读取 developer.json
+    alt 全部 PASS
+        PM->>PM: [PM] Task developer 收工 → PASS
+        PM->>Dev: 交棒下一角色（CR）
+    else 任一 FAIL
+        PM->>Dev: 打回重做（上限 3 次，超限升级人工）
+    end
+    Note over PM,FS: 声称与事实的鸿沟被退出码彻底消除

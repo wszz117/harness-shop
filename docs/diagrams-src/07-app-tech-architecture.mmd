@@ -1,0 +1,47 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart TB
+    subgraph FE["前端 · React 18 + Vite（frontend/src）"]
+        direction TB
+        SCREENS["Screens（15 个页面）<br/>Home / Product / Cart / Shipping / Payment<br/>PlaceOrder / Order / Profile / Wishlist<br/>Login / Register + Admin×4"]
+        COMPS["Components（18 个）<br/>Header · SearchBox · Rating · Paginate<br/>MoneyDisplay · FxStatusBanner · WishlistHeart"]
+        STORE["Redux Toolkit Store（8 个 Slice）<br/>apiSlice（RTK Query 基座）<br/>auth / cart / fx / language<br/>orders / products / users ApiSlice"]
+        I18N["i18n 双语系统<br/>useT Hook + 字典<br/>访客 localStorage / 用户 uiLanguage"]
+        SCREENS --> STORE
+        COMPS --> STORE
+        SCREENS --> I18N
+    end
+    subgraph BE["后端 · Express + Mongoose ESM（backend/）"]
+        direction TB
+        ROUTES["Routes（5 个）<br/>products / users / orders / upload / fx"]
+        MW["Middleware<br/>authMiddleware（JWT httpOnly Cookie）<br/>asyncHandler · checkObjectId · errorMiddleware"]
+        CTRL["Controllers（4 个）<br/>product / user / order / fx<br/>全部 asyncHandler 包裹"]
+        SVC["Services / Utils<br/>fxService（汇率快照+降级）<br/>calcPrices · generateToken · productI18n"]
+        MODELS["Models（3 个）<br/>Product / User / Order<br/>timestamps: true"]
+        ROUTES --> MW --> CTRL --> SVC --> MODELS
+    end
+    subgraph DATA["数据层"]
+        MONGO[("MongoDB<br/>shop-v2 库<br/>seeder 双语种子数据")]
+    end
+    subgraph TEST["测试体系（三层金字塔）"]
+        direction LR
+        UT["单元测试<br/>Vitest + mongodb-memory-server<br/>后端 8 组 · 前端 6 组"]
+        E2E["E2E 测试<br/>Playwright<br/>home / cart / search"]
+        GATE["硬门禁<br/>verify.sh 19 项<br/>check-harness.sh 90+ 项"]
+    end
+    STORE -->|"RTK Query 统一调用 /api/*<br/>（禁止 fetch/axios 直调）"| ROUTES
+    MODELS --> MONGO
+    TEST -.->|"覆盖验证"| FE
+    TEST -.->|"覆盖验证"| BE
+    style FE fill:#ebf8ff,stroke:#2b6cb0
+    style BE fill:#f0fff4,stroke:#276749
+    style DATA fill:#fffaf0,stroke:#975a16
+    style TEST fill:#fff5f5,stroke:#c53030

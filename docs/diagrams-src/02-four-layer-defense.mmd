@@ -1,0 +1,38 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "15px"
+---
+flowchart TB
+    subgraph L1["第 1 层 · rules 软约束"]
+        direction LR
+        R1["harness-core.mdc<br/>研发纪律"] --- R2["code-standards.mdc<br/>代码规范"] --- R3["workflow-discipline.mdc<br/>工作流纪律"]
+    end
+    subgraph L2["第 2 层 · skills SOP 手册"]
+        direction LR
+        S1["build-test"] --- S2["post-verify"] --- S3["code-review"] --- S4["test-e2e"] --- S5["systematic-debug"]
+    end
+    subgraph L3["第 3 层 · hooks 旁路验证（进程外，AI 不可感知）"]
+        direction LR
+        H1["sessionStart<br/>环境自检"] --- H2["subagentStop<br/>收工并行验证<br/>单测×2 + verify + baseline"] --- H3["beforeSubmitPrompt<br/>命令合法性拦截"]
+    end
+    subgraph L4["第 4 层 · scripts 硬门禁（退出码 0/1，不容商量）"]
+        direction LR
+        C1["verify.sh<br/>19 项规范门禁"] --- C2["check-harness.sh<br/>90+ 项结构体检"] --- C3["baseline.sh<br/>质量基线防倒退"] --- C4["spec-lint.py<br/>规格编号校验"]
+    end
+    A["AI 编码代理"] --> L1
+    L1 -->|"约束在上下文中<br/>可能被稀释遗忘"| L2
+    L2 -->|"标准化操作<br/>减少自由发挥"| L3
+    L3 -->|"事件触发<br/>结果写入 hook-results JSON"| L4
+    L4 --> V["✅ 交付判定：证据链完整<br/>退出码 + 测试输出 + 截图"]
+    style A fill:#ebf8ff,stroke:#2b6cb0,stroke-width:2px
+    style V fill:#f0fff4,stroke:#276749,stroke-width:2px
+    style L1 fill:#fffaf0,stroke:#975a16
+    style L2 fill:#fffff0,stroke:#975a16
+    style L3 fill:#ebf8ff,stroke:#2b6cb0
+    style L4 fill:#fff5f5,stroke:#c53030

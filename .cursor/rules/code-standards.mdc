@@ -1,0 +1,31 @@
+---
+description: shop-v2 编码规范（后端 Express/Mongoose + 前端 React/RTK Query）
+globs: "{backend,frontend}/**/*.{js,jsx}"
+alwaysApply: false
+---
+
+# 编码规范
+
+## 后端（backend/）
+
+1. **ESM-only**：`import/export`，禁 `require()`。
+2. 路由文件独立放 `backend/routes/`，在 `app.js` 挂载；`server.js` 只负责 listen。
+3. **Controller 模式**：`routes → controllers → models`，路由文件不写业务逻辑。
+4. Controller 一律 `asyncHandler` 包裹；受保护接口用 `protect` / `admin` 中间件；带 `:id` 的路由加 `checkObjectId`。
+5. 状态码约定：200 成功 / 201 创建 / 400 参数错误 / 401 未授权 / 404 不存在 / 500 服务器错误；错误响应带稳定 `messageKey` 供前端 i18n。
+6. Mongoose Model 必须 `timestamps: true`。
+
+## 前端（frontend/src/）
+
+1. 新页面放 `screens/`，管理端页面放 `screens/admin/`。
+2. **API 调用必须 RTK Query**（对应 `slices/*ApiSlice.js` `injectEndpoints`），禁止组件内 fetch/axios 直调。
+3. UI 用 React Bootstrap 组件，**禁内联 style**。
+4. 新页面必须在 `src/index.jsx` 路由树注册（登录页包 PrivateRoute，管理页包 AdminRoute）。
+5. 用户可见文案一律走 `useT()` 词典 key，zh/en 双写。
+6. 测试状态断言用 `data-testid`/`aria-*`，不断言 CSS Module 类名。
+
+## 通用
+
+- 单文件 ≤ **300 行**，超限必须拆分。
+- 禁 `console.log` 残留（seeder/server 启动日志除外）。
+- 以上各条均被 `.harness/scripts/verify.sh` 硬校验，绕不过去，别试。

@@ -1,0 +1,51 @@
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#f7fafc"
+    primaryBorderColor: "#4a5568"
+    primaryTextColor: "#1a202c"
+    lineColor: "#718096"
+    fontSize: "14px"
+---
+flowchart TB
+    HUMAN["👤 人类工程师<br/>需求提出 · 两次人工审批"]
+    subgraph CURSOR["AI 代理协作层 · .cursor/（Cursor IDE 扩展点）"]
+        direction LR
+        CMD["commands/<br/>三命令工作流<br/>propose · apply · archive"]
+        RULES["rules/<br/>3 个常驻软约束"]
+        SKILLS["skills/<br/>5 个 SOP 手册"]
+        HOOKS["hooks/<br/>3 事件旁路验证<br/>（进程外 Python）"]
+        MCP["mcp.json<br/>本地 MCP 工具"]
+    end
+    subgraph HARNESS["Harness 资产层 · .harness/（单一真相源）"]
+        direction LR
+        AGENTS["agents/<br/>7 角色契约<br/>PM·BA·SA·RR·Dev·CR·TE"]
+        KB["三库知识工程<br/>specs / codebase-guide / memory"]
+        TPL["templates/<br/>9 个填表式模板"]
+        SCRIPTS["scripts/<br/>13 个硬门禁脚本<br/>verify 19 项 · 体检 90+ 项"]
+        DELIV["deliverables/<br/>任务交付与归档<br/>（证据链）"]
+        WF["workflow/<br/>8 阶段状态机"]
+    end
+    subgraph APP["业务应用层 · MERN 电商演示域"]
+        direction LR
+        FE["frontend/<br/>React 18 + Vite<br/>Redux Toolkit + RTK Query"]
+        BE["backend/<br/>Express + Mongoose ESM<br/>routes→controllers→services→models"]
+        DB[("MongoDB")]
+        E2E["e2e/<br/>Playwright 取证"]
+        MCPS["mcp-server/<br/>看板/状态/verify"]
+    end
+    HUMAN -->|"发起任务 / 审批"| CMD
+    CMD -->|"PM 调度角色接力"| AGENTS
+    HOOKS -->|"触发硬门禁"| SCRIPTS
+    AGENTS -->|"Dev 编写代码（TDD）"| FE
+    AGENTS -->|"Dev 编写代码（TDD）"| BE
+    SCRIPTS -->|"退出码验证：单测 / E2E / 规范扫描"| APP
+    FE -->|"RTK Query /api/*"| BE
+    BE -->|"Mongoose ODM"| DB
+    E2E -.->|"浏览器取证"| FE
+    DELIV -->|"归档：Spec / Memory Merge"| KB
+    style HUMAN fill:#fff5f5,stroke:#c53030,stroke-width:2px
+    style CURSOR fill:#ebf8ff,stroke:#2b6cb0
+    style HARNESS fill:#fffaf0,stroke:#975a16
+    style APP fill:#f0fff4,stroke:#276749

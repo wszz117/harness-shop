@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "shop-v2-tools": {
+      "command": "node",
+      "args": ["mcp-server/index.js"],
+      "env": {}
+    }
+  }
+}

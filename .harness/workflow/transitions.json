@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "states": [
+    "PROPOSED",
+    "REQUIREMENTS",
+    "DESIGN",
+    "READINESS",
+    "DEVELOPMENT",
+    "CODE_REVIEW",
+    "TESTING",
+    "AWAITING_ARCHIVE",
+    "DONE"
+  ],
+  "profiles": {
+    "quick": {
+      "propose": ["BA", "SA"],
+      "apply": ["Dev", "CR", "TE"]
+    },
+    "standard": {
+      "propose": ["BA", "SA", "RR"],
+      "apply": ["Dev", "CR", "TE"]
+    },
+    "refactor": {
+      "propose": ["SA-impact", "BA", "SA", "RR"],
+      "apply": ["Dev", "CR", "TE"]
+    }
+  },
+  "human_gates": [
+    { "after": "propose", "name": "人工审批1" },
+    { "after": "apply", "name": "人工审批2" }
+  ],
+  "rollback_rules": [
+    { "from": "CODE_REVIEW", "when": "CR REJECT 且含 Dev-owned 问题", "to": "DEVELOPMENT" },
+    { "from": "TESTING", "when": "TE FAIL 且为实现级 Bug", "to": "DEVELOPMENT" },
+    { "from": "TESTING", "when": "TE-owned 资产问题（无效报告）", "to": "TESTING" },
+    { "from": "any-apply", "when": "需求级/验收口径缺失/环境阻塞", "to": "HUMAN_ESCALATION" }
+  ]
+}

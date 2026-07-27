@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "sessionStart": [
+      { "command": ".cursor/hooks/session-node-env.py", "timeout": 30, "failClosed": false }
+    ],
+    "subagentStop": [
+      {
+        "command": ".cursor/hooks/dispatch-subagent.py",
+        "matcher": "generalPurpose|general-purpose|developer|test-engineer|business-analyst|solution-architect|code-reviewer|readiness-reviewer|project-manager",
+        "timeout": 3600,
+        "failClosed": false
+      }
+    ],
+    "beforeSubmitPrompt": [
+      { "command": ".cursor/hooks/dispatch-prompt.py", "timeout": 30, "failClosed": false }
+    ]
+  }
+}
