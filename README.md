@@ -181,7 +181,7 @@ Harness 是通用框架，为了证明其真实可落地，本仓库选择电商
 
 | 文档 | 产出角色 | 关键内容 |
 |------|---------|---------|
-| proposal.md | PM+人类 | 背景/范围/Profile/验收口径（唯一真相源） |
+| proposal.md | PM+人工审批 | 背景/范围/Profile/验收口径（唯一真相源） |
 | requirements.md | BA | BDD 需求 + R/S 编号 + Spec Delta |
 | design.md | SA | W-xx 工作项 + R/S 双向覆盖矩阵 |
 | readiness-review.md | RR | 10 项就绪 checklist |
