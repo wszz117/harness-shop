@@ -23,7 +23,7 @@ sudo apt install -y mongodb-org && sudo systemctl start mongod
 ## 2. 克隆与安装
 
 ```bash
-git clone https://github.com/<your-username>/harness-shop.git
+git clone https://github.com/wszz117/harness-shop.git
 cd harness-shop
 
 # 安装根依赖（后端 + 工具链）

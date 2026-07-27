@@ -103,7 +103,7 @@ Node.js ≥ 20（建议 22）、MongoDB ≥ 6（本机 `127.0.0.1:27017`）、Pl
 
 ```bash
 # 1. 克隆并安装依赖（根 + 前端）
-git clone https://github.com/<your-username>/harness-shop.git
+git clone https://github.com/wszz117/harness-shop.git
 cd harness-shop
 npm install && cd frontend && npm install && cd ..
 
