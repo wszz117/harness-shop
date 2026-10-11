@@ -34,7 +34,7 @@ rm -rf <target>/.harness/deliverables/* <target>/.harness/memory/entries/*
 ## 5. 验收
 
 ```bash
-bash .harness/scripts/check-harness.sh   # 结构完整性 90+ 项全过
+bash .harness/scripts/check-harness.sh   # 结构完整性 134 项全过
 bash .harness/scripts/verify.sh          # 19 项全 PASS
 ```
 

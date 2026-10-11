@@ -1,0 +1,21 @@
+{
+  "scenario": "场景 2：临时移走 fxService.test.js（模拟删测试凑绿）。剩余测试全过，但通过数 50 低于基线 63、文件数 5 低于基线 6，判 FAIL",
+  "recorded_at": "2026-10-11",
+  "role": "developer",
+  "task": "hook-demo-deleted-tests",
+  "verdict": "FAIL",
+  "fail_reason": "通过用例数 50 低于基线 63; 基线倒退(rc=1)",
+  "test_rc": 0,
+  "test_counts": {
+    "passed": 50,
+    "failed": 0
+  },
+  "min_pass_required": 63,
+  "verify_rc": 0,
+  "baseline_rc": 1,
+  "smoke_rc": 0,
+  "elapsed_sec": 12.2,
+  "baseline_output_tail": "[BASELINE FAIL] 后端测试文件 5 < 基线 6",
+  "smoke_output_tail": "[OK] 后端启动成功 (端口 34235)\n[OK] API 根路径可访问: API is running...\n[OK] 汇率接口可用: {\"rate\":7.25,\"fetchedAt\":\"2026-10-11T07:10:42.513Z\",\"state\":\"available\"}",
+  "verify_output_last_line": "[VERIFY PASS] 全部 19 项通过"
+}

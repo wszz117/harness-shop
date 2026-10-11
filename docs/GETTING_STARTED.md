@@ -82,7 +82,7 @@ npm run test:e2e        # E2E：需要 npm run dev 正在运行 + 已灌种子�
                         # 首次需要：npx playwright install chromium
 
 bash .harness/scripts/verify.sh         # 19 项工程规范硬门禁
-bash .harness/scripts/check-harness.sh  # 90+ 项框架结构体检
+bash .harness/scripts/check-harness.sh  # 134 项框架结构体检
 ```
 
 看到 `verify.sh` 输出全绿并以退出码 0 结束，就是 Harness 所说的"硬门禁通过"——这正是 AI 每次收工时被自动检查的内容。

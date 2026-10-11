@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from './apiSlice.js';
 
 // FX 快照兜底：localStorage 键 fx_cmd_cny_snapshot
-// 状态语义：available | stale | unavailable (design: exchange-rate-cache-fallback)
+// 状态语义：loading | available | stale | unavailable (design: exchange-rate-cache-fallback)
+// loading：首次请求尚未返回，不展示横幅（避免闪烁）；本地快照仍可用于参考价换算
 const SNAPSHOT_KEY = 'fx_cmd_cny_snapshot';
 
 const readLocalSnapshot = () => {
@@ -14,10 +15,12 @@ const readLocalSnapshot = () => {
   }
 };
 
+const initialSnapshot = readLocalSnapshot(); // { rate, fetchedAt }
+
 const initialState = {
-  snapshot: readLocalSnapshot(), // { rate, fetchedAt }
-  state: readLocalSnapshot() ? 'stale' : 'unavailable',
-  availableRate: Boolean(readLocalSnapshot()),
+  snapshot: initialSnapshot,
+  state: 'loading',
+  availableRate: Boolean(initialSnapshot),
 };
 
 const fxSlice = createSlice({

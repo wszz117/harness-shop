@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.tile { border: 1.5px solid var(--line); border-radius: 14px; padding: 16px 18px; background: #fff; border-top: 5px solid; }
+.tile .n { font-size: 46px; font-weight: 900; line-height: 1.05; }
+.tile .n small { font-size: 20px; font-weight: 700; margin-left: 4px; }
+.tile .l { font-size: 17px; font-weight: 800; margin-top: 6px; }
+.tile .s { font-size: 14px; color: var(--ink-2); margin-top: 3px; line-height: 1.5; }
+.t-ok { border-top-color: var(--ok); } .t-ok .n { color: var(--ok); }
+.t-gov { border-top-color: var(--gov); } .t-gov .n { color: var(--gov); }
+.t-ai { border-top-color: var(--ai); } .t-ai .n { color: var(--ai); }
+.t-kb { border-top-color: var(--kb); } .t-kb .n { color: var(--kb); }
+h3 { font-size: 22px; font-weight: 800; margin: 26px 0 4px; }
+.h3s { font-size: 15.5px; color: var(--ink-2); margin-bottom: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 16.5px; }
+th { text-align: left; background: var(--soft); padding: 10px 14px; font-size: 15px; color: var(--ink-2); border-bottom: 2px solid var(--line); }
+td { padding: 10px 14px; border-bottom: 1px solid var(--line); }
+td.v0 { color: var(--human); font-weight: 700; } td.v1 { color: var(--ok); font-weight: 800; }
+td.m { color: var(--ink-2); font-size: 14.5px; }
+</style></head><body>
+<div class="canvas">
+  <div class="title">每个数字都来自本地实测，任何人都能复现</div>
+  <div class="subtitle">运行仓库里的测试和检查脚本就能得到同样的结果，命令见 docs/VERIFICATION.md。</div>
+  <div class="rule"></div>
+  <div class="tiles">
+    <div class="tile t-ok"><div class="n">63</div><div class="l">单元测试全部通过</div><div class="s">后端 40 · 前端 23</div></div>
+    <div class="tile t-ok"><div class="n">7</div><div class="l">端到端测试全部通过</div><div class="s">在真实浏览器里点击操作</div></div>
+    <div class="tile t-gov"><div class="n">19</div><div class="l">项规范门禁</div><div class="s">不通过即打回，全部通过</div></div>
+    <div class="tile t-gov"><div class="n">134</div><div class="l">项结构体检</div><div class="s">框架自身完整性，全部通过</div></div>
+    <div class="tile t-ai"><div class="n">41</div><div class="l">条验收场景</div><div class="s">覆盖 6 个业务领域，编号可追溯</div></div>
+    <div class="tile t-ai"><div class="n">7<small>+2</small></div><div class="l">AI 岗位 + 人工关口</div><div class="s">7 个岗位分工，人只拍板 2 次</div></div>
+    <div class="tile t-ok"><div class="n">5</div><div class="l">张真实证据截图</div><div class="s">每条端到端验收用例都有截图</div></div>
+    <div class="tile t-kb"><div class="n">6</div><div class="l">条经验沉淀</div><div class="s">症状 / 根因 / 修复 / 防复发</div></div>
+  </div>
+  <h3>v1.0 → v1.1：一次“自己复核自己”的迭代</h3>
+  <div class="h3s">v1.0 的文档全部写着通过，但真实运行时发现了问题。v1.1 不只修了代码，也补强了复核机制本身。</div>
+  <table>
+    <tr><th>检查项</th><th>v1.0 实测</th><th>v1.1 实测</th><th>做了什么</th></tr>
+    <tr><td>汇率接口</td><td class="v0">一直报错 503</td><td class="v1">正常 200</td><td class="m">启动时接上定时刷新；真实启动检查纳入复核</td></tr>
+    <tr><td>端到端测试</td><td class="v0">4 个只过 1 个</td><td class="v1">7 个全部通过</td><td class="m">修正页面标识；新增汇率三种状态测试</td></tr>
+    <tr><td>证据截图</td><td class="v0">1×1 像素占位图</td><td class="v1">5 张真实截图</td><td class="m">由测试自动截取；校验脚本拒绝占位图</td></tr>
+    <tr><td>独立复核判定</td><td class="v0">统计有误，恒判失败</td><td class="v1">正确判定</td><td class="m">实测拦截“功能没接上”“删测试凑绿”两类问题</td></tr>
+    <tr><td>单元测试</td><td>50</td><td class="v1">63</td><td class="m">先写失败的测试，再修代码，记录红绿过程</td></tr>
+  </table>
+  <div class="foot"><span>实测日期 2026-10-11 · Node 22 · MongoDB 6.0 · Playwright Chromium</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+</body></html>

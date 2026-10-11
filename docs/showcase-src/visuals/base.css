@@ -1,0 +1,33 @@
+/* Harness 展示图统一样式：颜色有固定含义，所有图共用 */
+:root {
+  --human: #C0392B;   --human-bg: #FDECEA;
+  --ai: #2E6DB4;      --ai-bg: #EAF2FB;
+  --gov: #6C4AB6;     --gov-bg: #F4F1FA;
+  --ok: #2E8B57;      --ok-bg: #EAF7EE;
+  --kb: #D2691E;      --kb-bg: #FFF6E5;
+  --ink: #1F2937;     --ink-2: #4B5563;  --ink-3: #9CA3AF;
+  --line: #E5E7EB;    --paper: #FFFFFF;  --soft: #F8FAFC;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); }
+body {
+  font-family: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ink); -webkit-font-smoothing: antialiased;
+}
+.canvas { width: 1200px; padding: 44px 52px 30px; }
+.canvas.portrait { width: 900px; }
+.canvas.wide { width: 1600px; }
+.title { font-size: 36px; font-weight: 800; letter-spacing: 0.5px; line-height: 1.25; }
+.subtitle { font-size: 19px; color: var(--ink-2); margin-top: 10px; line-height: 1.55; }
+.rule { height: 4px; width: 72px; background: var(--ai); border-radius: 2px; margin: 18px 0 26px; }
+.foot { margin-top: 24px; font-size: 13px; color: var(--ink-3); display: flex; justify-content: space-between; }
+.tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.card { background: #fff; border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.mono { font-family: "DejaVu Sans Mono", "Menlo", monospace; }
+.c-human { color: var(--human); } .c-ai { color: var(--ai); } .c-gov { color: var(--gov); }
+.c-ok { color: var(--ok); } .c-kb { color: var(--kb); } .c-mute { color: var(--ink-2); }
+.b-human { background: var(--human-bg); border-color: var(--human); }
+.b-ai { background: var(--ai-bg); border-color: var(--ai); }
+.b-gov { background: var(--gov-bg); border-color: var(--gov); }
+.b-ok { background: var(--ok-bg); border-color: var(--ok); }
+.b-kb { background: var(--kb-bg); border-color: var(--kb); }

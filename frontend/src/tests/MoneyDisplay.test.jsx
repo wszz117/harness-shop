@@ -3,8 +3,8 @@ import { screen } from '@testing-library/react';
 import MoneyDisplay from '../components/MoneyDisplay.jsx';
 import { renderWithProviders } from './testUtils.jsx';
 
-describe('MoneyDisplay (S-004 全站一致)', () => {
-  it('无 FX 快照时仅展示 USD', () => {
+describe('MoneyDisplay (FX-S-001/005 全站一致)', () => {
+  it('无 FX 快照时仅展示 USD，不渲染参考价 (FX-S-005)', () => {
     renderWithProviders(<MoneyDisplay usd={10} />, {
       preloadedState: {
         fx: { snapshot: null, state: 'unavailable', availableRate: false },
@@ -13,9 +13,10 @@ describe('MoneyDisplay (S-004 全站一致)', () => {
     const el = screen.getByTestId('money-display');
     expect(el.textContent).toContain('$10.00');
     expect(el.textContent).not.toContain('¥');
+    expect(screen.queryByTestId('cny-ref')).toBeNull();
   });
 
-  it('有快照时展示换算 CNY', () => {
+  it('有快照时展示 ≈ ¥ 参考价 (FX-S-001)', () => {
     renderWithProviders(<MoneyDisplay usd={10} />, {
       preloadedState: {
         fx: {
@@ -25,6 +26,6 @@ describe('MoneyDisplay (S-004 全站一致)', () => {
         },
       },
     });
-    expect(screen.getByTestId('money-display').textContent).toContain('¥72.00');
+    expect(screen.getByTestId('cny-ref').textContent).toBe('≈ ¥72.00');
   });
 });

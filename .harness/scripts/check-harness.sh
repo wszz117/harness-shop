@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Harness 结构完整性体检：90+ 项。全过退出 0。
+# Harness 结构完整性体检：130+ 项。全过退出 0。
 set -uo pipefail
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 cd "$PROJECT_ROOT"
@@ -107,6 +107,9 @@ need_f e2e/playwright.config.js
 need_f mcp-server/index.js
 need_f .cursor/mcp.json
 
+# --- 归档证据为真实截图（v1.1：拒绝 1x1 占位图冒充证据） ---
+python3 .harness/scripts/check-e2e-evidence.py check-archived-all >/dev/null 2>&1 \
+  && ok "归档任务 E2E 证据截图齐全且非占位图" || bad "归档证据截图缺失或为占位图（运行 check-e2e-evidence.py check-archived-all 查看）"
 # --- 模板残留（活跃任务） ---
 LEFT=$(grep -rln '{{' .harness/deliverables --include='*.md' 2>/dev/null | grep -v _archive || true)
 [ -z "$LEFT" ] && ok "deliverables 活跃任务无模板残留" || bad "模板残留: $LEFT"

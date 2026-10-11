@@ -16,6 +16,12 @@ main {
   padding-left: 0.5rem;
 }
 
+.product-title-link {
+  flex: 1;
+  min-width: 0; /* 允许 flex 子项收缩，长商品名才会显示省略号而不压住收藏图标 */
+  margin-right: 0.5rem;
+}
+
 .product-title {
   height: 2.5em;
   overflow: hidden;

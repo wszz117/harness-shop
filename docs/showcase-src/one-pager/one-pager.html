@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="../visuals/base.css">
+<style>
+@page { size: A4; margin: 0; }
+html, body { width: 210mm; }
+.canvas.a4 { width: 210mm; height: 297mm; padding: 13mm 13mm 9mm; display: flex; flex-direction: column; overflow: hidden; }
+.hd { border-bottom: 3px solid var(--ai); padding-bottom: 9px; }
+.hd .k { font-size: 12px; font-weight: 800; color: var(--ai); letter-spacing: 1px; }
+.hd h1 { font-size: 25px; font-weight: 900; line-height: 1.3; margin-top: 3px; }
+.hd p { font-size: 13px; color: var(--ink-2); margin-top: 5px; line-height: 1.6; }
+h2 { font-size: 15px; font-weight: 900; margin: 12px 0 7px; display: flex; align-items: center; gap: 8px; }
+h2::before { content: ""; width: 5px; height: 15px; border-radius: 2px; background: var(--ai); }
+.pains { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.pain { background: var(--human-bg); border: 1.2px solid #F2C4BE; border-radius: 9px; padding: 8px 9px; }
+.pain b { font-size: 13px; color: var(--human); display: block; } .pain span { font-size: 11.2px; color: var(--ink-2); line-height: 1.5; display: block; margin-top: 2px; }
+.how { display: grid; grid-template-columns: 1fr 1.12fr; gap: 12px; align-items: start; }
+.how img { width: 100%; border: 1.2px solid var(--line); border-radius: 9px; display: block; }
+.hl { border-left: 4px solid; border-radius: 0 9px 9px 0; padding: 7px 10px; margin-bottom: 7px; background: var(--soft); }
+.hl b { font-size: 13.2px; display: block; } .hl span { font-size: 11.6px; color: var(--ink-2); line-height: 1.55; display: block; margin-top: 2px; }
+.hl.a { border-color: var(--ai); } .hl.g { border-color: var(--gov); } .hl.k { border-color: var(--kb); } .hl.o { border-color: var(--ok); }
+.nums { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.num { border: 1.2px solid var(--line); border-top: 4px solid var(--ok); border-radius: 9px; padding: 6px 8px; text-align: center; }
+.num .n { font-size: 24px; font-weight: 900; color: var(--ok); line-height: 1.15; } .num .l { font-size: 11px; color: var(--ink-2); line-height: 1.4; }
+.num.g { border-top-color: var(--gov); } .num.g .n { color: var(--gov); }
+.num.h { border-top-color: var(--human); } .num.h .n { color: var(--human); }
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.shot { border: 1.2px solid var(--line); border-radius: 9px; overflow: hidden; }
+.shot .im { height: 118px; overflow: hidden; } .shot img { width: 100%; display: block; }
+.shot .c { font-size: 11px; color: var(--ink-2); padding: 4px 8px; border-top: 1.2px solid var(--line); }
+.ft { margin-top: auto; display: flex; gap: 12px; align-items: center; border-top: 1.5px solid var(--line); padding-top: 9px; }
+.ft img { width: 74px; height: 74px; }
+.ft .t { font-size: 11.5px; line-height: 1.7; color: var(--ink-2); flex: 1; }
+.ft .t b { color: var(--ink); font-size: 12.5px; }
+.ft .me { font-size: 11px; color: var(--ink-2); text-align: right; line-height: 1.7; }
+</style></head><body>
+<div class="canvas a4">
+  <div class="hd">
+    <div class="k">开源项目 · AI 编码代理工程化治理</div>
+    <h1>Harness：让 AI 程序员拿出证据，<br>而不只是说“做完了”</h1>
+    <p>AI 已经能写代码，团队真正头疼的是：它说完成了，你不敢信。Harness 不去“教 AI 诚实”，而是让它诚不诚实变得不重要 —— 每次交付都由 AI 看不见的独立程序复核，人只核对证据。</p>
+  </div>
+
+  <h2>要解决的四个问题</h2>
+  <div class="pains">
+    <div class="pain"><b>忘规矩</b><span>对话一长，AI 忘了开头定的规范。像新员工忘了入职培训。</span></div>
+    <div class="pain"><b>改考题</b><span>测试不过，AI 去改测试而不是改代码。像考试把题改简单。</span></div>
+    <div class="pain"><b>自己审自己</b><span>让 AI 检查自己的代码，它总说没问题。既当运动员又当裁判。</span></div>
+    <div class="pain"><b>虚报完成</b><span>AI 说“做完了”，其实没做完。口头说写完了，却看不到文件。</span></div>
+  </div>
+
+  <h2>怎么解决</h2>
+  <div class="how">
+    <img src="../../images/showcase/v1-overview.png">
+    <div>
+      <div class="hl a"><b>用组织设计管理 AI</b><span>7 个 AI 岗位各有岗位说明书，写代码的不能审自己的代码，测试的不能改被测代码。人只在“开工前定方向”和“验收时核证据”两个关口拍板。</span></div>
+      <div class="hl g"><b>只认证据，不认汇报</b><span>AI 声称完成时自动触发独立复核：重跑测试、19 项规范门禁、质量基线，并真实启动服务检查功能。任何一项不过，直接打回。</span></div>
+      <div class="hl k"><b>知识越用越多</b><span>验收标准沉淀为规格库（41 条场景），项目结构沉淀为代码地图，踩过的坑写进经验库，下一个任务开工前自动复用。</span></div>
+      <div class="hl o"><b>能移植</b><span>与业务无关的骨架（岗位、流程、复核）可直接复用，按五步迁移到其他代码仓库。</span></div>
+    </div>
+  </div>
+
+  <h2>结果（2026-10-11 本地实测，可复现）</h2>
+  <div class="nums">
+    <div class="num"><div class="n">63</div><div class="l">单元测试<br>全部通过</div></div>
+    <div class="num"><div class="n">7</div><div class="l">端到端测试<br>全部通过</div></div>
+    <div class="num g"><div class="n">19</div><div class="l">项规范门禁<br>全部通过</div></div>
+    <div class="num g"><div class="n">41</div><div class="l">条验收场景<br>编号可追溯</div></div>
+    <div class="num h"><div class="n">2</div><div class="l">类 AI 虚报<br>实测被拦截</div></div>
+  </div>
+
+  <h2>真实画面</h2>
+  <div class="shots">
+    <div class="shot"><div class="im"><img src="../../images/screenshots/01-home-zh.png"></div><div class="c">AI 在框架约束下交付的全栈商城（真实运行截图）</div></div>
+    <div class="shot"><div class="im"><img src="../../images/showcase/v3-interception.png"></div><div class="c">AI 说“测试全过”，独立复核真实启动后发现接口报错，当场打回</div></div>
+  </div>
+
+  <div class="ft">
+    <img src="../../images/showcase/qr-landing.png">
+    <div class="t"><b>扫码查看图文介绍（手机可直接打开）</b><br>介绍页：wszz117.github.io/harness-shop<br>源码与证据档案：github.com/wszz117/harness-shop</div>
+    <div class="me">技术栈：React · Node.js · MongoDB<br>Vitest · Playwright · Cursor Hooks<br>文档：38 页技术白皮书</div>
+  </div>
+</div>
+</body></html>

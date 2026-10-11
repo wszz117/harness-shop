@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.flow { display: grid; grid-template-columns: 1fr 34px 1.3fr 34px 1fr 34px 1fr; align-items: stretch; }
+.step { border: 2px solid; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; }
+.step .no { font-size: 14px; font-weight: 800; letter-spacing: 1px; }
+.step .h { font-size: 20px; font-weight: 800; margin: 4px 0 12px; }
+.chev { display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 30px; font-weight: 800; }
+.bubble { background: #fff; border: 1.5px solid var(--ai); border-radius: 14px 14px 14px 4px; padding: 14px; font-size: 17px; line-height: 1.6; }
+.who { margin-top: 12px; font-size: 14px; color: var(--ink-2); }
+.check { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px; font-size: 16px; }
+.check b { font-size: 16px; } .check small { display: block; font-size: 13px; color: var(--ink-2); font-weight: 400; }
+.check .r { font-weight: 800; font-size: 15px; white-space: nowrap; margin-left: 8px; }
+.check.pass .r { color: var(--ok); } .check.fail { border-color: var(--human); background: var(--human-bg); } .check.fail .r { color: var(--human); }
+.stamp { border: 4px solid var(--human); color: var(--human); border-radius: 12px; text-align: center; padding: 12px 6px; font-size: 30px; font-weight: 900; letter-spacing: 4px; transform: rotate(-4deg); margin: 6px 0 14px; background: #fff; }
+.stamp.ok { border-color: var(--ok); color: var(--ok); transform: rotate(0); }
+.why { font-size: 15px; line-height: 1.6; }
+.term { margin-top: 22px; background: #0F172A; color: #E2E8F0; border-radius: 12px; padding: 16px 20px; font-size: 14.5px; line-height: 1.7; }
+.term .g { color: #4ADE80; } .term .r { color: #F87171; } .term .d { color: #94A3B8; }
+.term .cap { color: #94A3B8; font-family: "Noto Sans CJK SC", sans-serif; font-size: 13px; margin-bottom: 6px; }
+.also { margin-top: 14px; display: flex; gap: 14px; }
+.also .card { flex: 1; font-size: 15px; line-height: 1.6; }
+.also .card b { display: block; font-size: 16px; margin-bottom: 2px; }
+[data-s] { transition: none; }
+body.anim [data-s].hide { visibility: hidden; }
+</style></head><body>
+<div class="canvas">
+  <div class="title">AI 说“做完了”，独立复核说“不行”</div>
+  <div class="subtitle">AI 每次声称完成，都会自动触发一个它看不见、也改不了的复核程序。这不是演示动画里编的：<br>把 v1.0 真实出现过的缺陷重新注入后，复核程序的实际输出就是下面这样。</div>
+  <div class="rule"></div>
+  <div class="flow">
+    <div class="step b-ai" data-s="0">
+      <div class="no c-ai">STEP 1</div><div class="h">AI 汇报完成</div>
+      <div class="bubble">“汇率功能做完了，<br>63 个测试全部通过，<br>可以验收了。”</div>
+      <div class="who">—— AI 开发工程师</div>
+    </div>
+    <div class="chev" data-s="1">›</div>
+    <div class="step b-gov" data-s="1">
+      <div class="no c-gov">STEP 2</div><div class="h">独立复核自动启动</div>
+      <div class="check pass" data-s="2"><div><b>单元测试</b><small>重新跑一遍，不看 AI 的汇报</small></div><div class="r">63 / 63 ✓</div></div>
+      <div class="check pass" data-s="3"><div><b>规范门禁</b><small>19 项编码与流程规范</small></div><div class="r">19 / 19 ✓</div></div>
+      <div class="check pass" data-s="4"><div><b>质量基线</b><small>测试不能比上次少</small></div><div class="r">未倒退 ✓</div></div>
+      <div class="check fail" data-s="5"><div><b>真实启动检查</b><small>启动服务，真的去调汇率接口</small></div><div class="r">报错 503 ✗</div></div>
+    </div>
+    <div class="chev" data-s="6">›</div>
+    <div class="step b-human" data-s="6">
+      <div class="no c-human">STEP 3</div><div class="h">判定不通过</div>
+      <div class="stamp">打回</div>
+      <div class="why">测试全过，功能却是坏的：<br>汇率服务启动时<b>没有接上</b>。<br>AI 必须修复后重新提交。</div>
+    </div>
+    <div class="chev" data-s="7">›</div>
+    <div class="step b-ok" data-s="7">
+      <div class="no c-ok">STEP 4</div><div class="h">修复后再复核</div>
+      <div class="stamp ok">通过</div>
+      <div class="why">四项检查全部通过，<br>用时 13.5 秒。<br>人验收时只需看这份结论。</div>
+    </div>
+  </div>
+  <div class="term mono" data-s="5">
+    <div class="cap">复核程序的原始输出（节选，hook-results/demo1-unwired-fx.json）</div>
+    <div><span class="g">[OK]</span> 后端启动成功 (端口 41041)</div>
+    <div><span class="g">[OK]</span> API 根路径可访问: API is running...</div>
+    <div><span class="r">[FAIL]</span> 汇率接口返回 HTTP 503（期望 200）：{"messageKey":"fx.unavailable"}</div>
+    <div><span class="d">verdict:</span> <span class="r">FAIL</span>  <span class="d">fail_reason:</span> 后端行为冒烟未过  <span class="d">test_counts:</span> passed 63, failed 0</div>
+  </div>
+  <div class="also" data-s="7">
+    <div class="card"><b class="c-human">另一类作弊也拦得住：删测试凑绿</b>把一个测试文件移走后，剩下的测试全部通过，但通过数从 63 掉到 50，低于基线，同样判定不通过。</div>
+    <div class="card"><b class="c-gov">为什么 AI 绕不过去</b>复核由开发工具在 AI 结束工作时自动触发，运行在独立进程中，结论写到 AI 流程之外的文件里；项目经理只认这份文件。</div>
+  </div>
+  <div class="foot"><span>实测记录：.harness/deliverables/_archive/exchange-rate-cache-fallback/hook-results/（2026-10-11）</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+<script>
+  const step = new URLSearchParams(location.search).get('step');
+  if (step !== null) {
+    document.body.classList.add('anim');
+    document.querySelectorAll('[data-s]').forEach((el) => { if (Number(el.dataset.s) > Number(step)) el.classList.add('hide'); });
+  }
+</script>
+</body></html>

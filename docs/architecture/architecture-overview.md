@@ -40,7 +40,7 @@
 
 **流程子系统**（workflow/ + agents/ + templates/）：`transitions.json` 定义了 9 个状态、3 种流程档位（Profile）、2 个人工卡点和 4 条回退规则的完整状态机；7 份角色契约以"输入 → 职责 → 产出 → 禁区"四要素定义每个 AI 角色的行为边界；9 个填表式模板保证交付文档结构统一、机器可校验。
 
-**门禁子系统**（scripts/）：13 个脚本构成第 4 层防线，全部以退出码作为唯一裁决依据。核心是 `verify.sh`（19 项工程规范门禁，如单文件 ≤300 行、禁止 console.log、controllers 必须 asyncHandler 包裹、前端禁止绕过 RTK Query 直调 fetch/axios 等）和 `check-harness.sh`（90+ 项框架结构完整性体检）。`baseline.sh` 记录并对比质量基线，防止"改好一处、退化三处"。
+**门禁子系统**（scripts/）：13 个脚本构成第 4 层防线，全部以退出码作为唯一裁决依据。核心是 `verify.sh`（19 项工程规范门禁，如单文件 ≤300 行、禁止 console.log、controllers 必须 asyncHandler 包裹、前端禁止绕过 RTK Query 直调 fetch/axios 等）和 `check-harness.sh`（134 项框架结构完整性体检，含证据截图真实性）。`baseline.sh` 记录并对比质量基线，防止"改好一处、退化三处"。
 
 **知识子系统**（specs/ + codebase-guide/ + memory/）：三库分别承载"系统应该做什么"（BDD 规格 + 全库唯一编号）、"代码实际怎么组织"（架构地图 + 调用链一行流）、"过去踩过什么坑"（四段式经验条目）。详见第 5 节。
 
@@ -155,7 +155,7 @@
 | **可追溯性** | 代码行 → W-xx → R/S 编号 → proposal 四级追溯；编号全库唯一且永不复用 |
 | **可测试性** | server.js/app.js 分离（supertest）、mongodb-memory-server（离线单测）、E2E 与 Scenario 1:1 |
 | **可移植性** | 框架资产与业务解耦，五步移植到任意技术栈（见 [移植指南](../../.harness/multi-repo-adaptation.md)） |
-| **防退化** | baseline.sh 质量基线对比 + C 类回归测试 + 90+ 项结构体检 |
+| **防退化** | baseline.sh 质量基线对比 + C 类回归测试 + 134 项结构体检 + 后端真实启动冒烟 |
 | **可恢复性** | codebase-guide 让新会话约 5 分钟恢复上下文；状态机使任务可从任意阶段续跑 |
 
 ## 9. 与 CI/CD 的关系

@@ -1,0 +1,99 @@
+name: CI
+
+# 每次提交都在干净环境里重跑一遍：单测、门禁、结构体检、
+# 与 Cursor 收工 hook 完全相同的独立复核，以及真实浏览器端到端测试。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    name: 单测 · 门禁 · 独立复核
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6
+        ports: ['27017:27017']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - name: 安装依赖
+        run: |
+          npm ci
+          npm ci --prefix frontend
+          cp .env.example .env
+      - name: 后端单测
+        run: npm test
+      - name: 前端单测
+        run: npm run test:frontend
+      - name: 19 项规范门禁
+        run: bash .harness/scripts/verify.sh
+      - name: 框架结构体检（含证据截图真实性）
+        run: bash .harness/scripts/check-harness.sh
+      - name: 独立复核（与 Cursor 收工 hook 相同的检查）
+        run: |
+          echo '{"subagent_type":"developer","prompt":"TASK_NAME=ci-run"}' | python3 .cursor/hooks/dispatch-subagent.py > /dev/null
+          python3 - <<'EOF'
+          import json, sys
+          d = json.load(open('.harness/.hook-results/ci-run/developer.json'))
+          print(json.dumps({k: d.get(k) for k in ('verdict', 'fail_reason', 'test_counts', 'min_pass_required', 'verify_rc', 'baseline_rc', 'smoke_rc', 'elapsed_sec')}, ensure_ascii=False, indent=2))
+          print(d.get('smoke_output_tail', ''))
+          sys.exit(0 if d.get('verdict') == 'PASS' else 1)
+          EOF
+
+  e2e:
+    name: 端到端测试（真实浏览器）
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:6
+        ports: ['27017:27017']
+    env:
+      E2E_EVIDENCE_DIR: ci-evidence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - name: 安装依赖与浏览器
+        run: |
+          npm ci
+          npm ci --prefix frontend
+          npx playwright install --with-deps chromium
+          cp .env.example .env
+      - name: 导入演示数据并启动前后端
+        run: |
+          npm run data:import
+          nohup npm run dev > dev.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:5001/api/fx/usd-cny > /dev/null && curl -sf http://localhost:3000 > /dev/null; then echo "ready after ${i}s"; exit 0; fi
+            sleep 1
+          done
+          echo "服务未在 60 秒内就绪"; tail -40 dev.log; exit 1
+      - name: 运行端到端测试
+        run: npx playwright test -c e2e/playwright.config.js
+      - name: 上传证据截图
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-evidence
+          path: |
+            ci-evidence/
+            test-results/
+            dev.log
+          if-no-files-found: ignore

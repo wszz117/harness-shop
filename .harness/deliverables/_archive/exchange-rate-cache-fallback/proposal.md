@@ -1,6 +1,8 @@
 # Proposal: exchange-rate-cache-fallback
 
 > 任务目录：`.harness/deliverables/exchange-rate-cache-fallback/` ｜ 阶段：需求提出
+>
+> v1.1 复核修订（2026-10-11）：验收口径中的接口字段由 `source: "fresh"/"cached"` 统一为 `state: "available"/"stale"`，与代码一致。详见 [re-verification.md](re-verification.md)。
 
 ## 背景与目标
 
@@ -9,7 +11,7 @@
 ## 范围
 
 ### In Scope
-- 后端 `GET /api/fx/usd-cny`：200（fresh/cached 标记）与 503（完全不可用）两种响应。
+- 后端 `GET /api/fx/usd-cny`：200（`state: available / stale`）与 503（完全不可用）两种响应。
 - fxService 内存快照（lastSuccessSnapshot）+ 定时刷新。
 - 前端 fxSlice + MoneyDisplay 参考价展示 + FxStatusBarBanner 降级横幅（双语）。
 
@@ -28,8 +30,8 @@
 
 ## 验收口径
 
-- 上游正常：商品价格旁展示"≈ ¥xxx.xx"参考价（中文界面），接口返回 `{ rate, source: "fresh" }`。
-- 上游故障但有快照：参考价照常展示，页面顶部出现"当前显示为缓存汇率 / Cached exchange rate in use"横幅（可截图验证：横幅位于 Header 下方，黄色警示样式）。
+- 上游正常：商品价格旁展示"≈ ¥xxx.xx"参考价（中文界面），接口返回 `{ rate, fetchedAt, state: "available" }`。
+- 上游故障但有快照：接口返回 `state: "stale"`，参考价照常展示，页面顶部出现"当前显示为缓存汇率 / Cached exchange rate in use"横幅（可截图验证：横幅位于 Header 下方，黄色警示样式）。
 - 完全不可用（无快照）：接口 503 `{ messageKey: "fx.unavailable" }`；参考价隐藏，仅横幅提示汇率暂不可用；加购/下单不受影响。
 
 ## 风险

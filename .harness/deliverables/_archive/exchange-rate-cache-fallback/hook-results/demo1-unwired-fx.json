@@ -1,0 +1,21 @@
+{
+  "scenario": "场景 1：在 v1.1 代码上注释掉 server.js 的 startAutoRefresh()（重新注入 v1.0 真实缺陷）。63 个测试与 19 项门禁全过，行为冒烟发现汇率接口 503，判 FAIL",
+  "recorded_at": "2026-10-11",
+  "role": "developer",
+  "task": "hook-demo-unwired-fx",
+  "verdict": "FAIL",
+  "fail_reason": "后端行为冒烟未过(rc=1)",
+  "test_rc": 0,
+  "test_counts": {
+    "passed": 63,
+    "failed": 0
+  },
+  "min_pass_required": 63,
+  "verify_rc": 0,
+  "baseline_rc": 0,
+  "smoke_rc": 1,
+  "elapsed_sec": 18.0,
+  "baseline_output_tail": "[BASELINE PASS] backend=6 frontend=7 e2e=4 不低于基线",
+  "smoke_output_tail": "[OK] 后端启动成功 (端口 41041)\n[OK] API 根路径可访问: API is running...\n[FAIL] 汇率接口返回 HTTP 503（期望 200）：{\"message\":\"FX rate completely unavailable\",\"messageKey\":\"fx.unavailable\"}\n       排查：server.js 是否调用 fxService.startAutoRefresh()；defaultFetcher 是否可用",
+  "verify_output_last_line": "[VERIFY PASS] 全部 19 项通过"
+}

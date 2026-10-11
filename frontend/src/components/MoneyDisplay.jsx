@@ -14,8 +14,8 @@ const MoneyDisplay = ({ usd }) => {
     <span data-testid="money-display">
       ${amount.toFixed(2)}
       {rate ? (
-        <small className="text-muted ms-1">
-          ({t(lang, 'fx.approx')} ¥{(amount * rate).toFixed(2)})
+        <small className="text-muted ms-1 text-nowrap d-inline-block" data-testid="cny-ref">
+          {t(lang, 'fx.approx')} ¥{(amount * rate).toFixed(2)}
         </small>
       ) : null}
     </span>

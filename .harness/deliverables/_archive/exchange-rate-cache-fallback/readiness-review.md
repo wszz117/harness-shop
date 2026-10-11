@@ -1,6 +1,8 @@
 # Readiness Review: exchange-rate-cache-fallback
 
 > 角色：readiness-reviewer ｜ 上游：proposal.md, requirements.md, design.md ｜ 状态：完成
+>
+> v1.1 复核附注（2026-10-11）：上游文档契约已统一为 `state: available / stale`，10 项检查结论不变；新增检查发现 v1.0 遗漏了"启动接线"与"证据真实性"两类问题，已分别由 backend-smoke.sh 行为探测与 check-e2e-evidence.py 截图校验覆盖。
 
 ## Checklist
 

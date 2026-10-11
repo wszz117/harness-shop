@@ -303,12 +303,12 @@ GET /api/products → getProducts → buildKeywordFilter(i18n) → Product.find(
 | stage-doc.sh | 按阶段落模板（已存在则保留） |
 | **verify.sh** | **19 项硬门禁**：300 行上限 / console.log / ESM / 路由挂载 / asyncHandler / timestamps / RTK 直调 / 内联 style / 路由注册 / 模板残留 / board 格式 / spec-lint / 索引一致 ×3 / agents 齐全 / hooks 合法 / 测试存在 ×2 |
 | **check-harness.sh** | **133 项结构体检**：目录/文件/权限/JSON 合法性/索引一致性全量扫描 |
-| backend-smoke.sh | 自动找空闲端口起后端 + curl 探活（环境问题降级 WARN 不误伤） |
-| baseline.sh | 质量基线记录/对比（git 干净度 + 测试通过数） |
+| backend-smoke.sh | 自动找空闲端口起后端 + curl 探活 + 汇率接口行为探测（必须 200；环境问题降级 WARN 不误伤） |
+| baseline.sh | 质量基线记录/对比（测试文件数，递归统计）；收工 hook 另比对通过用例数 min_pass |
 | build-stamp.sh | 前端构建 + 构建戳记录 |
 | ensure-mongodb.sh | mongod 探活/拉起 |
 | ensure-playwright.sh | chromium 就绪检查/安装 |
-| check-e2e-evidence.py | 校验 test-report 引用截图真实存在；归档时改写路径 |
+| check-e2e-evidence.py | 校验 test-report 引用截图真实存在且不是占位图（≥200×200、≥5KB）；归档时改写路径 |
 | spec-lint.py | specs 编号唯一性 + GWT 格式 + 退役列表格式 |
 | codebase-guide-init.sh | 采集依赖/目录树/路由事实供 guide 初始化 |
 | dev/dev-up.sh, dev/reset-db.sh | 本地开发便捷脚本 |

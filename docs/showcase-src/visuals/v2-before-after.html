@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0 10px; }
+th { font-size: 20px; text-align: left; padding: 12px 18px; }
+th.stage { width: 120px; } th.bad { width: 40%; }
+th.bad { background: #F3F4F6; color: var(--ink-2); border-radius: 12px 12px 0 0; }
+th.good { background: var(--ok); color: #fff; border-radius: 12px 12px 0 0; }
+td { vertical-align: top; padding: 14px 18px; font-size: 17px; line-height: 1.55; }
+td.stage { font-weight: 800; font-size: 18px; color: var(--ink); padding-top: 16px; }
+td.bad { background: #F9FAFB; color: var(--ink-2); border-left: 4px solid #D1D5DB; }
+td.good { background: var(--ok-bg); border-left: 4px solid var(--ok); }
+td small { display: block; font-size: 14px; color: var(--ink-3); margin-top: 4px; }
+td.good small { color: #4B7F62; }
+.real { margin-top: 18px; display: flex; gap: 16px; align-items: stretch; }
+.real .k { background: var(--human-bg); border: 2px solid var(--human); border-radius: 12px; padding: 14px 18px; font-size: 16px; line-height: 1.6; flex: 1; }
+.real .k b { color: var(--human); }
+</style></head><body>
+<div class="canvas">
+  <div class="title">同样让 AI 写代码，差别在于“你敢不敢信它说的完成”</div>
+  <div class="subtitle">左边是常见的用法：靠提示词和人工抽查。右边是 Harness：把信任交给可核对的证据。</div>
+  <div class="rule"></div>
+  <table>
+    <tr><th class="stage"></th><th class="bad">没有 Harness</th><th class="good">有 Harness</th></tr>
+    <tr><td class="stage">说需求</td>
+      <td class="bad">一段聊天描述，AI 按自己的理解做<small>做完才发现理解偏了</small></td>
+      <td class="good">需求先写成“在什么情况下、做什么、应该看到什么”的验收场景<small>本项目共 41 条，每条有编号</small></td></tr>
+    <tr><td class="stage">写代码</td>
+      <td class="bad">对话一长，AI 忘了一开始定的规矩</td>
+      <td class="good">规矩写进守则和操作手册，每次开工自动加载<small>7 个岗位各有岗位说明书</small></td></tr>
+    <tr><td class="stage">自检</td>
+      <td class="bad">AI 自己写、自己检查，总说“没问题”</td>
+      <td class="good">写代码的不能审自己的代码；测试的不能改被测代码</td></tr>
+    <tr><td class="stage">说完成</td>
+      <td class="bad">AI 说“做完了，测试都过了”，你只能选择相信</td>
+      <td class="good">AI 看不见的独立程序自动重跑测试、门禁，并真实启动服务检查<small>任何一项不过，直接打回</small></td></tr>
+    <tr><td class="stage">验收</td>
+      <td class="bad">人去读代码、点页面，耗时且容易漏</td>
+      <td class="good">人只核对证据：测试结果、截图、复核结论，每条都能追溯到需求编号</td></tr>
+    <tr><td class="stage">下一次</td>
+      <td class="bad">经验散落在聊天记录里，同样的坑反复踩</td>
+      <td class="good">踩过的坑写成“症状 / 根因 / 修复 / 防复发”条目，下次开工前自动查阅</td></tr>
+  </table>
+  <div class="real">
+    <div class="k"><b>真实发生过的例子：</b>本项目 v1.0 中，AI 交付的“汇率参考价”功能单元测试全部通过、文档写着 PASS，但真实启动后接口一直报错。v1.1 在独立复核里加入“真实启动检查”后，把同样的缺陷重新注入，复核程序当场判定不通过。详见仓库中的复核记录。</div>
+  </div>
+  <div class="foot"><span>数据来源：2026-10-11 本地实测，记录见 .harness/deliverables/_archive/exchange-rate-cache-fallback/re-verification.md</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+</body></html>

@@ -33,7 +33,7 @@ Harness 的目标不是提升能力上限，而是**抬高质量下限**：把�
 | `templates/` | 全部文档模板（填表逻辑：智能体只填空，不自由发挥） |
 | `tasks/board.md` | 任务看板（只读缓存，真相源是 proposal.md） |
 | `workflow/` | 状态机定义（transitions.json）与子代理编排说明 |
-| `scripts/` | 硬门禁脚本：verify.sh(19 项)、check-harness.sh(90+ 项)等，退出码即判定 |
+| `scripts/` | 硬门禁脚本：verify.sh(19 项)、check-harness.sh(134 项)等，退出码即判定 |
 | `eval-design/` | 评估设计：过程指标与结果指标 |
 | `training/` | 培训材料 |
 

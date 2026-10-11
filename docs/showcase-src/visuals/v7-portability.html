@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.st { background: var(--ai-bg); border: 2px solid var(--ai); border-radius: 14px; padding: 16px 14px; position: relative; }
+.st:last-child { background: var(--ok-bg); border-color: var(--ok); }
+.st .k { font-size: 40px; font-weight: 900; color: var(--ai); line-height: 1; }
+.st:last-child .k { color: var(--ok); }
+.st .h { font-size: 19px; font-weight: 800; margin: 8px 0 6px; }
+.st .d { font-size: 15px; color: var(--ink-2); line-height: 1.6; }
+.st:not(:last-child)::after { content: "›"; position: absolute; right: -14px; top: 40%; font-size: 30px; font-weight: 900; color: var(--ink-3); background: #fff; line-height: 1; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+.col { border-radius: 14px; padding: 16px 20px; border: 2px solid; }
+.col h4 { font-size: 19px; margin-bottom: 8px; }
+.col ul { list-style: none; } .col li { font-size: 16px; line-height: 1.6; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+.col li:last-child { border-bottom: none; }
+.col li small { color: var(--ink-2); font-size: 14px; margin-left: 6px; }
+</style></head><body>
+<div class="canvas">
+  <div class="title">不只是一个项目：五步移植到任何代码仓库</div>
+  <div class="subtitle">方法论与业务无关。换一个项目，保留“岗位 + 关卡 + 独立复核”这套骨架，只重建与业务相关的知识。</div>
+  <div class="rule"></div>
+  <div class="steps">
+    <div class="st"><div class="k">1</div><div class="h">复制骨架</div><div class="d">把规则、岗位、流程、脚本两个目录整体复制到新项目</div></div>
+    <div class="st"><div class="k">2</div><div class="h">重建业务知识</div><div class="d">规格库、代码地图、经验库按新项目的业务重新生成</div></div>
+    <div class="st"><div class="k">3</div><div class="h">适配门禁</div><div class="d">通用检查原样保留，和技术栈相关的检查按新栈改写</div></div>
+    <div class="st"><div class="k">4</div><div class="h">适配规则</div><div class="d">编码规范按新项目重写，流程纪律原样保留</div></div>
+    <div class="st"><div class="k">5</div><div class="h">试点验收</div><div class="d">结构体检和门禁全部通过后，用一个小任务走完全流程</div></div>
+  </div>
+  <div class="split">
+    <div class="col b-ok"><h4 class="c-ok">可以直接复用</h4><ul>
+      <li>7 个 AI 岗位说明书<small>职责与制衡关系通用</small></li>
+      <li>8 阶段流程与 2 个人工关口<small>与业务无关</small></li>
+      <li>独立复核机制<small>AI 结束工作即自动触发</small></li>
+      <li>框架结构体检脚本<small>只检查框架自身</small></li></ul></div>
+    <div class="col b-kb"><h4 class="c-kb">需要按新项目重做</h4><ul>
+      <li>规格库<small>新业务的验收场景</small></li>
+      <li>代码地图<small>由脚本采集后生成</small></li>
+      <li>编码规范<small>新技术栈的约定</small></li>
+      <li>技术栈相关门禁与启动检查<small>按新项目的启动方式改写</small></li></ul></div>
+  </div>
+  <div class="foot"><span>完整步骤：.harness/multi-repo-adaptation.md</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+</body></html>

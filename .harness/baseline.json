@@ -1,8 +1,16 @@
 {
   "version": 1,
-  "updated_at": "2026-07-12",
-  "backend_tests": { "files": 6, "min_pass": 24 },
-  "frontend_tests": { "files": 6, "min_pass": 18 },
-  "e2e_specs": { "files": 2 },
-  "notes": "基线由 .harness/scripts/baseline.sh --update 维护；apply 阶段 hook 旁路会对比该基线，测试数量或通过数低于基线即 FAIL（防交付倒退）。"
+  "updated_at": "2026-10-11",
+  "backend_tests": {
+    "files": 6,
+    "min_pass": 40
+  },
+  "frontend_tests": {
+    "files": 7,
+    "min_pass": 23
+  },
+  "e2e_specs": {
+    "files": 4
+  },
+  "notes": "基线由 .harness/scripts/baseline.sh --update 维护文件数；min_pass 为用例通过数下限。developer 收工 hook 会同时对比文件数与通过用例数，任一低于基线即 FAIL（防止删测试、跳过测试造成的交付倒退）。"
 }

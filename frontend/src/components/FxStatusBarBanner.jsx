@@ -5,7 +5,7 @@ import { selectFxState } from '../slices/fxSlice.js';
 import { selectLanguage } from '../slices/languageSlice.js';
 import { t } from '../utils/i18n.js';
 
-// FX 状态横幅：stale → 提示展示最近可用汇率；unavailable → 服务不可用；available → 不渲染
+// FX 状态横幅：stale → 提示当前为缓存汇率（黄色）；unavailable → 汇率暂不可用（灰色）；loading / available → 不渲染
 const FxStatusBarBanner = () => {
   useGetUsdCnyQuery(undefined, {
     refetchOnFocus: true,
@@ -15,7 +15,7 @@ const FxStatusBarBanner = () => {
   const fxState = useSelector(selectFxState);
   const lang = useSelector(selectLanguage);
 
-  if (fxState === 'available') return null;
+  if (fxState === 'loading' || fxState === 'available') return null;
 
   return (
     <Alert

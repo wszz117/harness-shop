@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.layer { border: 2px solid; border-radius: 16px; padding: 16px 20px 18px; position: relative; }
+.layer-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 12px; }
+.layer-name { font-size: 22px; font-weight: 800; }
+.layer-desc { font-size: 16px; color: var(--ink-2); }
+.grid { display: grid; gap: 12px; }
+.g4 { grid-template-columns: repeat(4, 1fr); } .g3 { grid-template-columns: repeat(3, 1fr); } .g2 { grid-template-columns: repeat(2, 1fr); }
+.node { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.node b { font-size: 17px; display: block; } .node span { font-size: 14px; color: var(--ink-2); line-height: 1.45; display: block; margin-top: 3px; }
+.node.strong { border-color: var(--gov); border-width: 2px; }
+.note { background: #FFF8E1; border: 1.5px dashed #B8860B; color: #8A6500; font-weight: 700; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 15px; }
+.arrow { display: flex; align-items: center; justify-content: center; gap: 10px; height: 46px; color: var(--ink-2); font-size: 15px; font-weight: 700; }
+.arrow i { width: 2px; height: 30px; background: var(--ink-3); position: relative; }
+.arrow i::after { content: ""; position: absolute; bottom: -2px; left: -6px; border: 7px solid transparent; border-top: 9px solid var(--ink-3); }
+.human-row { display: flex; gap: 14px; }
+.human-row .node { flex: 1; border-color: var(--human); }
+.loop { position: absolute; right: -2px; top: 0; }
+.wrap { position: relative; }
+.back { position: absolute; right: -36px; top: 120px; bottom: 60px; width: 28px; border: 2.5px dashed var(--kb); border-left: none; border-radius: 0 16px 16px 0; }
+.back-text { position: absolute; right: -50px; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; font-size: 13px; font-weight: 700; color: var(--kb); background: #fff; padding: 6px 0; letter-spacing: 2px; }
+.back-label { position: absolute; right: -40px; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: center; font-size: 14px; color: var(--kb); font-weight: 700; white-space: nowrap; width: 0; }
+</style></head><body>
+<div class="canvas">
+  <div class="title">Harness 一图看懂</div>
+  <div class="subtitle">像管理一支研发团队一样管理 AI：人只在两个关口拍板，其余由 7 个 AI 岗位分工完成，<br>每次交付都要过 AI 看不见的独立复核，只认证据，不认口头汇报。</div>
+  <div class="rule"></div>
+  <div class="wrap">
+    <div class="layer b-human">
+      <div class="layer-head"><div class="layer-name c-human">决策层 · 人</div><div class="layer-desc">只在成本最低、杠杆最高的两个点介入</div></div>
+      <div class="human-row">
+        <div class="node"><b>关口 ①　开工前确认方向</b><span>看需求和方案，此时改方向几乎零成本</span></div>
+        <div class="node"><b>关口 ②　验收时核对证据</b><span>只看测试结果、截图和复核结论，不看代码</span></div>
+      </div>
+    </div>
+    <div class="arrow"><i></i>下达任务</div>
+    <div class="layer b-ai">
+      <div class="layer-head"><div class="layer-name c-ai">执行层 · AI 虚拟研发团队</div><div class="layer-desc">7 个岗位，各有岗位说明书，职责互相制衡</div></div>
+      <div class="grid g4">
+        <div class="node"><b>项目经理</b><span>只调度，不动手写代码</span></div>
+        <div class="node"><b>需求分析师</b><span>把需求写成可验收的场景</span></div>
+        <div class="node"><b>方案架构师</b><span>拆成可追踪的工作项</span></div>
+        <div class="node"><b>就绪评审员</b><span>开工前查漏补缺</span></div>
+        <div class="node"><b>开发工程师</b><span>先写测试，再写代码</span></div>
+        <div class="node"><b>代码审查员</b><span>不能审自己写的代码</span></div>
+        <div class="node"><b>测试工程师</b><span>不能改被测的代码</span></div>
+        <div class="node note">规矩：运动员和裁判分开</div>
+      </div>
+    </div>
+    <div class="arrow"><i></i>每次交付都要过关</div>
+    <div class="layer b-gov">
+      <div class="layer-head"><div class="layer-name c-gov">治理层 · 四道质量关卡</div><div class="layer-desc">越往下越难绕过，后两道运行在 AI 碰不到的独立程序里</div></div>
+      <div class="grid g4">
+        <div class="node"><b>① 行为守则</b><span>写给 AI 的规章制度</span></div>
+        <div class="node"><b>② 操作手册</b><span>每类工作的固定步骤</span></div>
+        <div class="node strong"><b>③ 独立复核</b><span>AI 说“完成”后自动重测，<br>包括真实启动服务</span></div>
+        <div class="node strong"><b>④ 硬性门禁</b><span>19 项规范检查，<br>不通过即打回</span></div>
+      </div>
+    </div>
+    <div class="arrow"><i></i>只认证据，不认口头汇报</div>
+    <div class="layer b-ok">
+      <div class="layer-head"><div class="layer-name c-ok">成果层 · 两类交付物</div></div>
+      <div class="grid g2">
+        <div class="node"><b>能真正运行的网上商城</b><span>商品、购物车、下单、会员、后台、中英双语、汇率参考价</span></div>
+        <div class="node"><b>可追溯的证据档案</b><span>任意一行代码 → 需求编号 → 验收标准 → 测试 → 截图</span></div>
+      </div>
+    </div>
+    <div class="arrow"><i></i>任务归档时自动沉淀</div>
+    <div class="layer b-kb">
+      <div class="layer-head"><div class="layer-name c-kb">资产层 · 三个知识库</div><div class="layer-desc">越用越懂这个项目，下一个任务开工前自动复用</div></div>
+      <div class="grid g3">
+        <div class="node"><b>规格库</b><span>系统应该怎么表现（41 条验收场景）</span></div>
+        <div class="node"><b>代码地图</b><span>新人 5 分钟看懂项目结构</span></div>
+        <div class="node"><b>经验库</b><span>踩过的坑写成条目，不再踩第二次</span></div>
+      </div>
+    </div>
+    <div class="back"></div><div class="back-text">下个任务开工前自动复用</div>
+  </div>
+  <div class="foot"><span>颜色含义：红 = 人　蓝 = AI 执行　紫 = 治理　绿 = 成果　橙 = 知识资产</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+</body></html>

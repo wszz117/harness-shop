@@ -81,7 +81,7 @@ const Header = () => {
                 </>
               ) : (
                 <LinkContainer to="/login">
-                  <Nav.Link>
+                  <Nav.Link data-testid="nav-signin">
                     <FaUser /> {tr('nav.signin')}
                   </Nav.Link>
                 </LinkContainer>

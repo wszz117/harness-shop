@@ -14,7 +14,7 @@ const Product = ({ product }) => {
       </Link>
       <Card.Body>
         <div className="d-flex justify-content-between align-items-start">
-          <Link to={`/product/${product._id}`} style={{ /* allow-style */ flex: 1 }}>
+          <Link to={`/product/${product._id}`} className="product-title-link">
             <Card.Title as="div" className="product-title">
               <strong>{product.name}</strong>
             </Card.Title>

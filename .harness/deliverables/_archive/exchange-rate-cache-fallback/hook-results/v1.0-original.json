@@ -1,0 +1,18 @@
+{
+  "scenario": "v1.0 原始代码（tag v1.0.0-original）上运行原版收工 hook：50 个测试全部通过，却因 baseline.sh 统计不到后端测试文件而判 FAIL",
+  "recorded_at": "2026-10-11",
+  "role": "developer",
+  "task": "exchange-rate-cache-fallback",
+  "verdict": "FAIL",
+  "fail_reason": "基线倒退(rc=1)",
+  "test_rc": 0,
+  "test_counts": {
+    "passed": 50,
+    "failed": 0
+  },
+  "verify_rc": 0,
+  "baseline_rc": 1,
+  "elapsed_sec": 12.2,
+  "baseline_output_tail": "[BASELINE FAIL] 后端测试文件 0 < 基线 6",
+  "verify_output_last_line": "[VERIFY PASS] 全部 19 项通过"
+}

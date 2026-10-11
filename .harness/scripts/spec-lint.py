@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""specs 硬校验:
+r"""specs 硬校验:
 1) R-xxx / S-xxx 编号全库唯一（含退役列表）
 2) Requirement/Scenario 标题格式 `## Requirement: <名> (<域>-R-\d+)`
 3) 每个 Scenario 至少含 GIVEN/WHEN/THEN

@@ -1,6 +1,8 @@
 """developer 子代理停止后的旁路验证动作：
 - 并行跑前后端单测（互不阻塞）
 - 跑 verify.sh 硬门禁 + baseline.sh 基线对比
+- 跑 backend-smoke.sh 行为冒烟（真启动后端，探活根路径与关键接口）
+- 对比 baseline.json 的 min_pass：通过用例数低于基线即 FAIL（防删测试/跳测试）
 - verdict 写 .harness/.hook-results/<task>/developer.json
 """
 import json
@@ -50,6 +52,16 @@ def _run_script(repo_root: str, script: str) -> tuple[int, str]:
     return p.returncode, (p.stdout + p.stderr)
 
 
+def _min_pass_required(repo_root: str) -> int:
+    """baseline.json 中前后端 min_pass 之和；读取失败时返回 0（不额外拦截）。"""
+    try:
+        with open(os.path.join(repo_root, ".harness/baseline.json"), encoding="utf-8") as f:
+            d = json.load(f)
+        return int(d["backend_tests"].get("min_pass", 0)) + int(d["frontend_tests"].get("min_pass", 0))
+    except Exception:
+        return 0
+
+
 def run(repo_root: str, payload: dict, prompt: str, emit_followup, audit) -> dict:
     from _subagent_payload import extract_task_name
 
@@ -59,17 +71,25 @@ def run(repo_root: str, payload: dict, prompt: str, emit_followup, audit) -> dic
     test_rc, test_out, counts = _run_tests_parallel(repo_root)
     verify_rc, verify_out = _run_script(repo_root, ".harness/scripts/verify.sh")
     baseline_rc, baseline_out = _run_script(repo_root, ".harness/scripts/baseline.sh")
+    smoke_rc, smoke_out = _run_script(repo_root, ".harness/scripts/backend-smoke.sh")
+    min_pass = _min_pass_required(repo_root)
+    count_ok = counts["passed"] >= min_pass
 
-    verdict = "PASS" if (test_rc == 0 and verify_rc == 0 and baseline_rc == 0) else "FAIL"
+    checks_ok = test_rc == 0 and verify_rc == 0 and baseline_rc == 0 and smoke_rc == 0
+    verdict = "PASS" if (checks_ok and count_ok) else "FAIL"
     fail_reason = ""
     if verdict == "FAIL":
         parts = []
         if test_rc != 0:
             parts.append(f"单测失败(rc={test_rc}, passed={counts['passed']}, failed={counts['failed']})")
+        if not count_ok:
+            parts.append(f"通过用例数 {counts['passed']} 低于基线 {min_pass}")
         if verify_rc != 0:
             parts.append(f"verify.sh 未过(rc={verify_rc})")
         if baseline_rc != 0:
             parts.append(f"基线倒退(rc={baseline_rc})")
+        if smoke_rc != 0:
+            parts.append(f"后端行为冒烟未过(rc={smoke_rc})")
         fail_reason = "; ".join(parts)
 
     result = {
@@ -79,12 +99,15 @@ def run(repo_root: str, payload: dict, prompt: str, emit_followup, audit) -> dic
         "fail_reason": fail_reason,
         "test_rc": test_rc,
         "test_counts": counts,
+        "min_pass_required": min_pass,
         "verify_rc": verify_rc,
         "baseline_rc": baseline_rc,
+        "smoke_rc": smoke_rc,
         "elapsed_sec": round(time.time() - started, 1),
         "test_output_tail": test_out[-3000:],
         "verify_output_tail": verify_out[-2000:],
         "baseline_output_tail": baseline_out[-500:],
+        "smoke_output_tail": smoke_out[-800:],
     }
 
     out_dir = os.path.join(repo_root, ".harness/.hook-results", task)

@@ -6,9 +6,11 @@ PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 cd "$PROJECT_ROOT"
 B=".harness/baseline.json"
 
-BE=$(ls backend/tests/*.test.js 2>/dev/null | wc -l)
-FE=$(ls frontend/src/tests/*.test.* 2>/dev/null | wc -l)
-E2E=$(ls e2e/tests/*.e2e.js 2>/dev/null | wc -l)
+# 递归统计（后端测试按 controllers/services/utils 分子目录存放）
+# v1.1 修复：原写法 ls backend/tests/*.test.js 只看顶层，恒为 0，导致基线恒 FAIL
+BE=$(find backend/tests -name '*.test.js' 2>/dev/null | wc -l)
+FE=$(find frontend/src/tests -name '*.test.*' 2>/dev/null | wc -l)
+E2E=$(find e2e/tests -name '*.e2e.js' 2>/dev/null | wc -l)
 
 if [ "${1:-}" = "--update" ]; then
   python3 - "$BE" "$FE" "$E2E" <<'PY'

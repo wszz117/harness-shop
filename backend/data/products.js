@@ -1,3 +1,4 @@
+// rating / numReviews 不在此硬编码：由 seeder.js 根据 data/reviews.js 的真实评价计算
 const products = [
   {
     name: 'Airpods 无线蓝牙耳机',
@@ -12,8 +13,6 @@ const products = [
     category_en: 'Electronics',
     price: 89.99,
     countInStock: 10,
-    rating: 4.5,
-    numReviews: 12,
   },
   {
     name: 'iPhone 13 Pro 256GB',
@@ -28,8 +27,6 @@ const products = [
     category_en: 'Electronics',
     price: 599.99,
     countInStock: 7,
-    rating: 4.0,
-    numReviews: 8,
   },
   {
     name: '佳能 EOS 80D 单反相机',
@@ -44,8 +41,6 @@ const products = [
     category_en: 'Electronics',
     price: 929.99,
     countInStock: 5,
-    rating: 3,
-    numReviews: 12,
   },
   {
     name: '索尼 PlayStation 5',
@@ -60,8 +55,6 @@ const products = [
     category_en: 'Electronics',
     price: 399.99,
     countInStock: 11,
-    rating: 5,
-    numReviews: 12,
   },
   {
     name: '罗技 G 系列游戏鼠标',
@@ -76,8 +69,6 @@ const products = [
     category_en: 'Electronics',
     price: 49.99,
     countInStock: 7,
-    rating: 3.5,
-    numReviews: 10,
   },
   {
     name: '亚马逊 Echo Dot 智能音箱',
@@ -92,8 +83,6 @@ const products = [
     category_en: 'Electronics',
     price: 29.99,
     countInStock: 0,
-    rating: 4,
-    numReviews: 12,
   },
 ];
 

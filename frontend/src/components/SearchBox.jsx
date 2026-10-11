@@ -33,7 +33,7 @@ const SearchBox = () => {
       <Button
         type="submit"
         variant="outline-success"
-        className="p-2 mx-2"
+        className="p-2 mx-2 text-nowrap"
         data-testid="search-button"
       >
         {tr('nav.search.button')}

@@ -82,7 +82,7 @@ harness-shop/
 │   └── codebase-guide-skeletons/
 ├── scripts/                     # 13 个硬门禁脚本（第 4 层防线）
 │   ├── verify.sh                #   ★ 19 项工程规范门禁（见下表）
-│   ├── check-harness.sh         #   ★ 90+ 项框架结构体检
+│   ├── check-harness.sh         #   ★ 134 项框架结构体检
 │   ├── baseline.sh              #   质量基线记录与对比（防退化）
 │   ├── init-task.sh             #   任务目录初始化（从模板生成）
 │   ├── stage-doc.sh             #   阶段文档就位校验

@@ -27,7 +27,7 @@
 | PUT /api/orders/:id/pay | orderRoutes.js | `protect → updateOrderToPaid` | 标记支付 |
 | PUT /api/orders/:id/deliver | orderRoutes.js | `protect, admin → updateOrderToDelivered` | 标记发货 |
 | GET /api/orders | orderRoutes.js | `protect, admin → getOrders` | 管理端订单列表 |
-| GET /api/fx/usd-cny | fxRoutes.js | `getUsdCny → fxService.getSnapshot()（200 快照 {rate,fetchedAt,stale} / 无任何快照 503 messageKey fx.unavailable）` | 汇率快照降级 |
+| GET /api/fx/usd-cny | fxRoutes.js | `getUsdCny → fxService.getSnapshot()（200 快照 {rate,fetchedAt,state: available|stale} / 无任何快照 503 messageKey fx.unavailable）` | 汇率快照降级 |
 | POST /api/upload | uploadRoutes.js | `multer 本地存 uploads/` | 图片上传 |
 
 ## 横切组件
@@ -41,4 +41,4 @@
 | utils/calcPrices.js | 订单价格：items 合计；≤100 收 10 运费；税 15%；两位小数 |
 | utils/productI18n.js | buildKeywordFilter(lang) + projectProductForLang(product, lang)（en 缺失回退 zh） |
 | utils/generateToken.js | jwt 签发 + HttpOnly Cookie（30d） |
-| services/fxService.js | 内存 lastSuccessSnapshot；成功刷新覆盖，失败保留（stale 语义），从未成功 → null |
+| services/fxService.js | 内存 lastSuccessSnapshot；成功刷新覆盖，失败保留并记录 lastError（立即 stale），从未成功 → 503；server.js 启动时调用 startAutoRefresh()；上游 FX_UPSTREAM_URL > FX_FIXED_RATE > 7.25 |

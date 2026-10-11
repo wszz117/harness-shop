@@ -1,0 +1,21 @@
+{
+  "scenario": "v1.1 最终代码：全部检查通过，判 PASS",
+  "recorded_at": "2026-10-11",
+  "role": "developer",
+  "task": "exchange-rate-cache-fallback",
+  "verdict": "PASS",
+  "fail_reason": "",
+  "test_rc": 0,
+  "test_counts": {
+    "passed": 63,
+    "failed": 0
+  },
+  "min_pass_required": 63,
+  "verify_rc": 0,
+  "baseline_rc": 0,
+  "smoke_rc": 0,
+  "elapsed_sec": 13.5,
+  "baseline_output_tail": "[BASELINE PASS] backend=6 frontend=7 e2e=4 不低于基线",
+  "smoke_output_tail": "[OK] 后端启动成功 (端口 46673)\n[OK] API 根路径可访问: API is running...\n[OK] 汇率接口可用: {\"rate\":7.25,\"fetchedAt\":\"2026-10-11T07:11:08.433Z\",\"state\":\"available\"}",
+  "verify_output_last_line": "[VERIFY PASS] 全部 19 项通过"
+}

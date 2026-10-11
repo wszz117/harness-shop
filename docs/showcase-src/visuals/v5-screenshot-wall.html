@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.shot { border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 10px rgba(15,23,42,.06); }
+.shot .img { height: 300px; overflow: hidden; border-bottom: 1.5px solid var(--line); background: var(--soft); }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.shot .img.mobile { display: flex; justify-content: center; background: #EEF2F7; }
+.shot .img.mobile img { width: auto; height: 560px; border-radius: 18px; border: 6px solid #1F2937; margin-top: 14px; }
+.cap { padding: 10px 14px 12px; }
+.cap b { font-size: 18px; } .cap span { display: block; font-size: 14.5px; color: var(--ink-2); margin-top: 2px; }
+.fxrow { margin-top: 22px; }
+.fxhead { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.fxsub { font-size: 16px; color: var(--ink-2); margin-bottom: 12px; }
+.fx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fx .img { height: 250px; }
+.badge { display: inline-block; font-size: 13px; font-weight: 800; padding: 2px 10px; border-radius: 999px; margin-right: 6px; vertical-align: 2px; }
+</style></head><body>
+<div class="canvas wide">
+  <div class="title">这是一个真的能用的商城，不是效果图</div>
+  <div class="subtitle">以下全部是浏览器自动化在本地真实运行时截取的画面（可用 docs/showcase-src/capture-screenshots.mjs 重新生成）。</div>
+  <div class="rule"></div>
+  <div class="wall">
+    <div class="shot"><div class="img"><img src="../../images/screenshots/01-home-zh.png"></div><div class="cap"><b>首页</b><span>商品价格旁自动显示人民币参考价</span></div></div>
+    <div class="shot"><div class="img"><img src="../../images/screenshots/02-product-detail.png"></div><div class="cap"><b>商品详情</b><span>评分由真实评价计算，可收藏、可加购</span></div></div>
+    <div class="shot"><div class="img"><img src="../../images/screenshots/03-cart.png"></div><div class="cap"><b>购物车</b><span>数量调整、小计、去结算</span></div></div>
+    <div class="shot"><div class="img"><img src="../../images/screenshots/04-home-en.png"></div><div class="cap"><b>中英双语</b><span>一键切换，商品名、按钮、提示全部跟随</span></div></div>
+    <div class="shot"><div class="img"><img src="../../images/screenshots/05-admin-products.png"></div><div class="cap"><b>管理后台</b><span>商品、订单、用户管理（管理员账号登录）</span></div></div>
+    <div class="shot"><div class="img mobile"><img src="../../images/screenshots/06-mobile-home.png"></div><div class="cap"><b>手机端</b><span>响应式布局，手机浏览器可直接使用</span></div></div>
+  </div>
+  <div class="fxrow">
+    <div class="fxhead">示例任务交付的功能：汇率服务的三种状态</div>
+    <div class="fxsub">这三张图同时也是测试报告里的验收证据，由端到端测试自动截取。</div>
+    <div class="fx">
+      <div class="shot"><div class="img"><img src="../../../.harness/deliverables/_archive/exchange-rate-cache-fallback/evidence/B-E2E-01-fresh-ref-price.png"></div><div class="cap"><b><span class="badge b-ok c-ok">正常</span>显示实时参考价</b><span>$89.99 ≈ ¥652.43，无提示条</span></div></div>
+      <div class="shot"><div class="img"><img src="../../../.harness/deliverables/_archive/exchange-rate-cache-fallback/evidence/B-E2E-02-cached-banner.png"></div><div class="cap"><b><span class="badge" style="background:#FFF4D6;color:#8A6500">降级</span>使用缓存汇率</b><span>黄色提示“当前显示为缓存汇率”，参考价保留</span></div></div>
+      <div class="shot"><div class="img"><img src="../../../.harness/deliverables/_archive/exchange-rate-cache-fallback/evidence/B-E2E-03-unavailable-hidden.png"></div><div class="cap"><b><span class="badge" style="background:#EEF0F3;color:#4B5563">不可用</span>只显示美元价</b><span>灰色提示“汇率暂不可用”，下单不受影响</span></div></div>
+    </div>
+  </div>
+  <div class="foot"><span>截图日期 2026-10-11 · 视口 1280×800 / 手机 390×844</span><span>github.com/wszz117/harness-shop</span></div>
+</div>
+</body></html>

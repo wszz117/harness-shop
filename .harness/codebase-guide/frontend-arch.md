@@ -27,7 +27,7 @@
 | authSlice | userInfo；登录/登出 listener（触发语言合流与缓存清空） | localStorage `userInfo` |
 | cartSlice | 购物车 + 收货地址 + 支付方式；updateCart 复算 | localStorage `cart` |
 | languageSlice | current(zh/en)；setLanguage / setLanguageExplicit / resolveLoginUiLanguage | localStorage `uiLanguage` + sessionStorage `uiLanguageSessionExplicit` |
-| fxSlice | snapshot + state(available/stale/unavailable) | localStorage `fx_cmd_cny_snapshot` |
+| fxSlice | snapshot + state(loading/available/stale/unavailable)，初始 loading 不出横幅 | localStorage `fx_cmd_cny_snapshot` |
 | products/users/ordersApiSlice | injectEndpoints 各域端点 | — |
 
 ## 关键组件
@@ -36,7 +36,7 @@
 |------|------|
 | Header | 导航 + SearchBox + 语言切换（data-testid: lang-switch/nav-cart/nav-wishlist） |
 | MoneyDisplay | 全站唯一金额出口：USD 必显，有快照加 ≈¥（data-testid: money-display） |
-| FxStatusBanner | stale 降级横幅 |
+| FxStatusBarBanner | stale 黄色「当前显示为缓存汇率」/ unavailable 灰色「汇率暂不可用」；loading、available 不渲染 |
 | WishlistHeart | 红心组件（列表卡片/详情复用；未登录跳 /login?redirect=…） |
 | Product | 商品卡片（含 WishlistHeart + MoneyDisplay） |
 | PrivateRoute / AdminRoute | 登录/管理员路由守卫 |
