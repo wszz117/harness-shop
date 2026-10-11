@@ -13,9 +13,12 @@ import time
 
 from _node_path import node_env
 
+_ANSI = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]")
+
 
 def _parse_test_counts(output: str) -> dict:
-    """从 vitest 输出解析通过/失败数。"""
+    """从 vitest 输出解析通过/失败数。先去掉颜色控制符：CI（如 GitHub Actions）会强制彩色输出。"""
+    output = _ANSI.sub("", output)
     counts = {"passed": 0, "failed": 0}
     for m in re.finditer(r"Tests\s+(?:(\d+)\s+failed\s*\|\s*)?(\d+)\s+passed", output):
         if m.group(1):
@@ -26,6 +29,7 @@ def _parse_test_counts(output: str) -> dict:
 
 def _run_tests_parallel(repo_root: str) -> tuple[int, str, dict]:
     env = node_env()
+    env.update({"NO_COLOR": "1", "FORCE_COLOR": "0"})
     backend = subprocess.Popen(
         ["npx", "vitest", "run", "--reporter=basic"],
         cwd=repo_root, env=env,
